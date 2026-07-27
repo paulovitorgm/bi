@@ -1,28 +1,16 @@
 from pathlib import Path
-
 import os
 from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env", encoding="utf-8")
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
-print("DB_NAME:", repr(os.getenv("DB_NAME")))
-print("DB_USER:", repr(os.getenv("DB_USER")))
-print("DB_HOST:", repr(os.getenv("DB_HOST")))
-print("DB_PORT:", repr(os.getenv("DB_PORT")))
-
-# SECURITY WARNING: don't run with debug turned on in production!
 
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -31,6 +19,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'apps.base',
+    'apps.controle_de_processos_capro',
 ]
 
 MIDDLEWARE = [
@@ -48,7 +39,7 @@ ROOT_URLCONF = 'base_de_dados_bi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
