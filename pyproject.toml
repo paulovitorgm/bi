@@ -1,0 +1,62 @@
+[tool.poetry]
+name = "base-dados-bi"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.dependencies]
+python = "^3.14"
+django = "^6.0.7"
+django-filter = "^26.1"
+markdown = "^3.10.2"
+argon2-cffi = "^25.1.0"
+django-extensions = "^4.1"
+coverage = "^7.15.2"
+python-dotenv = "^1.2.2"
+django-environ = "^0.14.0"
+psycopg2-binary = "^2.9.12"
+psycopg2 = "^2.9.12"
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.14.1"
+ruff = "^0.16.0"
+faker = "^40.36.0"
+
+
+[tool.poetry.group.dev]
+optional = true
+
+
+[tool.ruff]
+line-length = 85
+exclude = ['settings.py']
+extend-exclude = ['migrations', 'manage.py']
+
+
+[tool.ruff.format]
+preview = true
+quote-style = 'single'
+
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
+ignore = ['PT009']
+
+
+[tool.taskipy.tasks]
+lint = 'ruff check .; ruff check . --diff'
+format = 'ruff check . --fix && ruff format .'
+run = 'python manage.py runserver'
+m = 'python manage.py'
+pre_test = 'task lint'
+test = 'coverage run --source="." manage.py test'
+post_test = 'coverage html'
