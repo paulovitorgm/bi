@@ -1,0 +1,34 @@
+{% extends "partials/_base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+    <h3>Deseja realmente excluir este processo?</h3>
+
+    <hr>
+
+    <p><strong>Processo:</strong> {{ object.processo_formatado }}</p>
+
+    <p><strong>Coordenador:</strong> {{ object.coordenador }}</p>
+
+    <p><strong>Ementa:</strong> {{ object.ementa }}</p>
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <button class="btn btn-danger">
+            Excluir
+        </button>
+
+        <a href="{% url 'listar-processos' %}"
+           class="btn btn-secondary">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

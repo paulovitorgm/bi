@@ -3,10 +3,15 @@ from django.db import models
 
 from apps.controle_de_processos_capro.models.coordenador import CoordenadorModel
 
-NATUREZA = [('', ''), ('', ''), ('', '')]
-MODALIDADE = [('', ''), ('', ''), ('', '')]
-ABRANGENCIA = [('', ''), ('', ''), ('', '')]
-FORMA_DE_APROVACAO = [('', ''), ('', ''), ('', '')]
+NATUREZA = [
+    (1, 'A'),
+    (2, 'B'),
+    (3, 'C'),
+    (4, 'D'),
+]
+MODALIDADE = [(1, 'E'), (2, 'F'), (3, 'G')]
+ABRANGENCIA = [(1, ''), (2, ''), (3, '')]
+FORMA_DE_APROVACAO = [(1, ''), (2, ''), (3, '')]
 MES = [
     (1, 'Janeiro'),
     (2, 'Fevereiro'),
@@ -48,10 +53,12 @@ class ControleDeProcessosModel(models.Model):
         blank=False,
         null=False,
     )
-    modalidade = models.CharField(max_length=50, choices=MODALIDADE)
-    natureza = models.CharField(max_length=50, choices=NATUREZA)
-    abrangencia = models.CharField(max_length=50, choices=ABRANGENCIA)
-    forma_de_aprovacao = models.CharField(max_length=50, choices=FORMA_DE_APROVACAO)
+    modalidade = models.IntegerField(max_length=50, choices=MODALIDADE)
+    natureza = models.IntegerField(max_length=50, choices=NATUREZA)
+    abrangencia = models.IntegerField(max_length=50, choices=ABRANGENCIA)
+    forma_de_aprovacao = models.IntegerField(
+        max_length=50, choices=FORMA_DE_APROVACAO
+    )
     coordenador = models.ForeignKey(CoordenadorModel, on_delete=models.CASCADE)
     custos_indiretos = models.DecimalField(
         max_digits=10, decimal_places=2, default=0, validators=[MinValueValidator(0)]

@@ -22,6 +22,7 @@ coverage = "^7.15.2"
 python-dotenv = "^1.2.2"
 django-environ = "^0.14.0"
 psycopg = { version = "^3.3.4", extras = ["binary"] }
+faker = "^40.36.0"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -51,7 +52,7 @@ quote-style = 'single'
 [tool.ruff.lint]
 preview = true
 select = ['I', 'F', 'E', 'W', 'PL', 'PT']
-ignore = ['PT009']
+ignore = ['PT009', 'PT011','PT027']
 
 
 [tool.taskipy.tasks]

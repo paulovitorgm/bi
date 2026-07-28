@@ -1,4 +1,4 @@
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -26,9 +26,14 @@ class CoordenadorListView(ListView):
 
 class CoordenadorUpdate(UpdateView):
     model = CoordenadorModel
-    template_name = 'controle_de_processos/atualizar_processo.html'
+    template_name = 'controle_de_processos/coordenadores/editar.html'
     form_class = CoordenadorForm
-    success_url = reverse_lazy('listar-coordenadores')
+
+    def get_success_url(self):
+        return reverse(
+            'editar-coordenador',
+            kwargs={'id': self.object.pk},
+        )
 
 
 class CoordenadorDelete(DeleteView):

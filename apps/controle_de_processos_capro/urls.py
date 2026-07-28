@@ -5,15 +5,19 @@ from apps.controle_de_processos_capro.views.controle_de_processos import (
     ControleDeProcessosDelete,
     ControleDeProcessosDetail,
     ControleDeProcessosListView,
+    ControleDeProcessosUpdate,
+    buscar_processo_para_excluir,
 )
 from apps.controle_de_processos_capro.views.coordenador import (
     CoordenadorCreate,
     CoordenadorListView,
+    CoordenadorUpdate,
 )
 
 urlpatterns = [
+    # processos
     path(
-        'listar-processos/',
+        'processos/',
         ControleDeProcessosListView.as_view(),
         name='listar-processos',
     ),
@@ -28,12 +32,23 @@ urlpatterns = [
         name='detalhar-processo',
     ),
     path(
-        'deletar-processo/<str:processo_sei>/',
-        ControleDeProcessosDelete.as_view(),
-        name='deletar-processo',
+        'buscar-processo/',
+        buscar_processo_para_excluir,
+        name='buscar-processo',
     ),
     path(
-        'listar-coordenadores/',
+        'editar-processo/<str:processo_sei>/',
+        ControleDeProcessosUpdate.as_view(),
+        name='editar-processo',
+    ),
+    path(
+        'deletar-processo/<str:processo_sei>/',
+        ControleDeProcessosDelete.as_view(),
+        name='confirmar-exclusao-processo',
+    ),
+    # coordenadores
+    path(
+        'coordenadores/',
         CoordenadorListView.as_view(),
         name='listar-coordenadores',
     ),
@@ -41,5 +56,10 @@ urlpatterns = [
         'cadastrar-coordenador/',
         CoordenadorCreate.as_view(),
         name='criar-coordenador',
+    ),
+    path(
+        'editar-coordenador/<int:pk>/',
+        CoordenadorUpdate.as_view(),
+        name='editar-coordenador',
     ),
 ]

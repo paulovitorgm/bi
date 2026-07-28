@@ -1,5 +1,6 @@
 {% extends 'partials/_base.html' %}
 
+{% load custom_filters %}
 
 {% block content %}
 <div class="table-responsive">
@@ -8,29 +9,29 @@
             <tr>
             <th>Processo</th>
             <th>Modalidade</th>
-            <th>Natureza</th>
-            <th>Abrangência</th>
-            <th>Forma de Aprovação</th>
             <th>Coordenador</th>
             <th>Custos indiretos</th>
-            <th>Esfera administrativa</th>
-            <th>Mês da aprovação</th>
             <th>Ementa</th>
+            <th>Ação</th>
             </tr>
         </thead>
         <tbody>
             {% for processo in processos %}
                 <tr>
-                    <th>{{ processo.processo_sei }}</th>
+                    <th>{{ processo.processo_sei|sei_mask}}</th>
                     <td>{{ processo.modalidade }}</td>
-                    <td>{{ processo.natureza }}</td>
-                    <td>{{ processo.abrangencia }}</td>
-                    <td>{{ processo.forma_de_aprovacao }}</td>
                     <td>{{ processo.coordenador }}</td>
                     <td>{{ processo.custos_indiretos }}</td>
-                    <td>{{ processo.esfera_administrativa }}</td>
-                    <td>{{ processo.mes_da_aprovacao }}</td>
                     <td>{{ processo.ementa }} </td>
+                    <td>
+                        <a href="{% url 'detalhar-processo' processo.processo_sei %}">
+                            <button type="button" class="btn btn-info">Detalhes</button></a>
+                        <a href="{% url 'editar-processo'  processo.processo_sei %}">
+                            <button type="button" class="btn btn-warning">Editar</button></a>
+                        <a href="{% url 'confirmar-exclusao-processo'  processo.processo_sei %}">
+                            <button type="button" class="btn btn-danger">Excluir</button></a>
+
+                    </td>
                 </tr>
             {% empty %}
                 <tr>
