@@ -1,9 +1,9 @@
 from django import forms
 
-from apps.controle_de_processos_capro.models import (
+from apps.controle_de_processos_capro.models.controle_de_processos import (
     ControleDeProcessosModel,
-    CoordenadorModel,
 )
+from apps.controle_de_processos_capro.models.coordenador import CoordenadorModel
 
 
 class BootstrapModelForm(forms.ModelForm):
@@ -14,22 +14,22 @@ class BootstrapModelForm(forms.ModelForm):
             widget = campo.widget
 
             if isinstance(widget, forms.Select):
-                widget.attrs["class"] = "form-select"
+                widget.attrs['class'] = 'form-select'
 
-                if nome == "coordenador":
-                    widget.attrs["class"] += " tomselect"
+                if nome == 'coordenador':
+                    widget.attrs['class'] += ' tomselect'
 
             else:
-                widget.attrs["class"] = "form-control"
+                widget.attrs['class'] = 'form-control'
 
 
 class ControleDeProcessosForm(BootstrapModelForm):
     class Meta:
         model = ControleDeProcessosModel
-        fields = "__all__"
+        fields = '__all__'
 
 
 class CoordenadorForm(BootstrapModelForm):
     class Meta:
         model = CoordenadorModel
-        fields = "__all__"
+        fields = '__all__'
