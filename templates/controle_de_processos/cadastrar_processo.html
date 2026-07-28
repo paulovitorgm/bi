@@ -3,6 +3,9 @@
 {% block content %}
 
 <div class="container mt-4">
+
+    <h1>Cadastrar Processo</h1>
+
     <form method="post">
         {% csrf_token %}
         {% for field in form %}
@@ -24,7 +27,9 @@
         <button class="btn btn-primary" type="submit">
             Cadastrar
         </button>
+
     </form>
+
 </div>
 
 {% endblock %}
