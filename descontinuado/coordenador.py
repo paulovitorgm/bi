@@ -8,7 +8,7 @@ from django.views.generic import (
 )
 
 from apps.controle_de_processos_capro.forms import CoordenadorForm
-from apps.controle_de_processos_capro.models.coordenador import CoordenadorModel
+from descontinuado.coordenadormodel import CoordenadorModel
 
 
 class CoordenadorCreate(CreateView):
@@ -28,6 +28,10 @@ class CoordenadorUpdate(UpdateView):
     model = CoordenadorModel
     template_name = 'controle_de_processos/coordenadores/editar.html'
     form_class = CoordenadorForm
+    #
+    #   VOLTAR POR AQUI
+    #
+    #
 
     def get_success_url(self):
         return reverse(

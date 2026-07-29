@@ -1,7 +1,9 @@
+from typing import Any
+
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
-from apps.controle_de_processos_capro.models.coordenador import CoordenadorModel
+from apps.pessoas.models import PessoaModel
 
 NATUREZA = [
     (1, 'A'),
@@ -40,7 +42,7 @@ class EsferaAdministrativa(models.IntegerChoices):
 
 
 class ControleDeProcessosModel(models.Model):
-    id = models.AutoField(primary_key=True, auto_created=True)
+    id = models.AutoField(primary_key=True)
     processo_sei = models.CharField(
         max_length=17,
         unique=True,
@@ -53,13 +55,11 @@ class ControleDeProcessosModel(models.Model):
         blank=False,
         null=False,
     )
-    modalidade = models.IntegerField(max_length=50, choices=MODALIDADE)
-    natureza = models.IntegerField(max_length=50, choices=NATUREZA)
-    abrangencia = models.IntegerField(max_length=50, choices=ABRANGENCIA)
-    forma_de_aprovacao = models.IntegerField(
-        max_length=50, choices=FORMA_DE_APROVACAO
-    )
-    coordenador = models.ForeignKey(CoordenadorModel, on_delete=models.CASCADE)
+    modalidade = models.IntegerField(choices=MODALIDADE)
+    natureza = models.IntegerField(choices=NATUREZA)
+    abrangencia = models.IntegerField(choices=ABRANGENCIA)
+    forma_de_aprovacao = models.IntegerField(choices=FORMA_DE_APROVACAO)
+    coordenador = models.ForeignKey(PessoaModel, on_delete=models.CASCADE)
     custos_indiretos = models.DecimalField(
         max_digits=10, decimal_places=2, default=0, validators=[MinValueValidator(0)]
     )
@@ -81,6 +81,10 @@ class ControleDeProcessosModel(models.Model):
                 name='custos_indiretos_positivo',
             )
         ]
+
+    def __init__(self, *args: Any, **kwargs: Any):
+        super().__init__(*args, **kwargs)
+        self.matricula = None
 
     @property
     def processo_formatado(self):

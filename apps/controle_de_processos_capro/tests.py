@@ -8,7 +8,7 @@ from apps.controle_de_processos_capro.models.controle_de_processos import (
     ControleDeProcessosModel,
     EsferaAdministrativa,
 )
-from apps.controle_de_processos_capro.models.coordenador import CoordenadorModel
+from descontinuado.coordenadormodel import CoordenadorModel
 
 
 class CoordenadorModelTest(TestCase):

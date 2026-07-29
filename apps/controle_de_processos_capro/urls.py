@@ -8,11 +8,6 @@ from apps.controle_de_processos_capro.views.controle_de_processos import (
     ControleDeProcessosUpdate,
     buscar_processo_para_excluir,
 )
-from apps.controle_de_processos_capro.views.coordenador import (
-    CoordenadorCreate,
-    CoordenadorListView,
-    CoordenadorUpdate,
-)
 
 urlpatterns = [
     # processos
@@ -45,21 +40,5 @@ urlpatterns = [
         'deletar-processo/<str:processo_sei>/',
         ControleDeProcessosDelete.as_view(),
         name='confirmar-exclusao-processo',
-    ),
-    # coordenadores
-    path(
-        'coordenadores/',
-        CoordenadorListView.as_view(),
-        name='listar-coordenadores',
-    ),
-    path(
-        'cadastrar-coordenador/',
-        CoordenadorCreate.as_view(),
-        name='criar-coordenador',
-    ),
-    path(
-        'editar-coordenador/<int:pk>/',
-        CoordenadorUpdate.as_view(),
-        name='editar-coordenador',
     ),
 ]
