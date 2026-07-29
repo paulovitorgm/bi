@@ -45,10 +45,12 @@ class PessoaListView(ListView):
 
 class PessoaDelete(DeleteView):
     model = PessoaModel
-    template_name = 'pessoas/deletar.html'
-    success_url = reverse_lazy('listar-pessoas')
-    slug_field = 'matricula'
-    slug_url_kwarg = 'matricula'
+    template_name = "pessoas/confirmacao.html"
+    context_object_name = "pessoa"
+    slug_field = "matricula"
+    slug_url_kwarg = "matricula"
+    success_url = reverse_lazy("listar-pessoas")
+
 
 
 def buscar_pessoa_para_excluir(request):

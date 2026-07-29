@@ -70,9 +70,7 @@ def buscar_processo_para_excluir(request):
             processo_sei = form.cleaned_data.get('processo_sei')
 
             try:
-                processo = ControleDeProcessosModel.objects.get(
-                    processo_sei=processo_sei
-                )
+                processo = ControleDeProcessosModel.objects.get(processo_sei=processo_sei)
 
                 return redirect(
                     'confirmar-exclusao-processo',
@@ -80,9 +78,7 @@ def buscar_processo_para_excluir(request):
                 )
 
             except ControleDeProcessosModel.DoesNotExist:
-                form.add_error(
-                    'processo_sei', 'Não existe um processo com esse número.'
-                )
+                form.add_error('processo_sei', 'Não existe um processo com esse número.')
 
             except ControleDeProcessosModel.MultipleObjectsReturned:
                 form.add_error(

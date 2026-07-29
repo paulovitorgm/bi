@@ -2,11 +2,11 @@
 
 {% block content %}
 
-
+<h1>Deletar pessoa</h1>
     <form method="post">
         {% csrf_token %}
-            {{ form.matricula.label_tag }}
-            {{ form.matricula }}
+
+            {{ form }}
 
             <button type="submit" class="btn btn-primary">Buscar</button>
     </form>

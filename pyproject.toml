@@ -39,7 +39,7 @@ optional = true
 
 
 [tool.ruff]
-line-length = 85
+line-length = 90
 exclude = ['settings.py']
 extend-exclude = ['migrations', 'manage.py']
 

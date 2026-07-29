@@ -14,20 +14,6 @@ NATUREZA = [
 MODALIDADE = [(1, 'E'), (2, 'F'), (3, 'G')]
 ABRANGENCIA = [(1, ''), (2, ''), (3, '')]
 FORMA_DE_APROVACAO = [(1, ''), (2, ''), (3, '')]
-MES = [
-    (1, 'Janeiro'),
-    (2, 'Fevereiro'),
-    (3, 'Março'),
-    (4, 'Abril'),
-    (5, 'Maio'),
-    (6, 'Junho'),
-    (7, 'Julho'),
-    (8, 'Agosto'),
-    (9, 'Setembro'),
-    (10, 'Outubro'),
-    (11, 'Novembro'),
-    (12, 'Dezembro'),
-]
 
 
 class EsferaAdministrativa(models.IntegerChoices):
@@ -61,18 +47,21 @@ class ControleDeProcessosModel(models.Model):
     forma_de_aprovacao = models.IntegerField(choices=FORMA_DE_APROVACAO)
     coordenador = models.ForeignKey(PessoaModel, on_delete=models.CASCADE)
     custos_indiretos = models.DecimalField(
-        max_digits=10, decimal_places=2, default=0, validators=[MinValueValidator(0)]
+        max_digits=18, decimal_places=2, default=0, validators=[MinValueValidator(0)]
+    )
+    valor_do_contrato = models.DecimalField(
+        max_digits=18, decimal_places=2, default=0, validators=[MinValueValidator(0)]
     )
     esfera_administrativa = models.IntegerField(choices=EsferaAdministrativa.choices)
     ementa = models.TextField(max_length=600)
-    mes_da_aprovacao = models.IntegerField(choices=MES)
+    data_da_aprovacao = models.DateField(blank=False, null=False)
 
     class Meta:
         db_table = 'ControleDeProcessos'
         indexes = [
             models.Index(fields=['processo_sei']),
             models.Index(fields=['coordenador']),
-            models.Index(fields=['mes_da_aprovacao']),
+            models.Index(fields=['data_da_aprovacao']),
             models.Index(fields=['esfera_administrativa']),
         ]
         constraints = [

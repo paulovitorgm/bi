@@ -29,9 +29,7 @@ class ControleDeProcessosForm(BootstrapModelForm):
 
 
 class DeletarProcesso(forms.Form):
-    processo = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'})
-    )
+    processo = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -54,7 +52,5 @@ class BuscarProcessoForm(forms.Form):
         processo = self.cleaned_data['processo_sei']
         self.PROCESSO_SEI_TAMANHO = 17
         if len(processo) != self.PROCESSO_SEI_TAMANHO:
-            raise forms.ValidationError(
-                'O número do processo deve possuir 17 dígitos.'
-            )
+            raise forms.ValidationError('O número do processo deve possuir 17 dígitos.')
         return processo

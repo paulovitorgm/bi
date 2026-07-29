@@ -22,7 +22,10 @@ INSTALLED_APPS = [
 
     'apps.base',
     'apps.controle_de_processos_capro',
-    'apps.pessoas'
+    'apps.pessoas',
+    'apps.planilha_bianca',
+    'apps.entidade',
+
 ]
 
 MIDDLEWARE = [

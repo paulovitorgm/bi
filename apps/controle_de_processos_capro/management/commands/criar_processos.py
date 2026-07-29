@@ -48,7 +48,10 @@ class Command(BaseCommand):
                     custos_indiretos=Decimal(f'{random.uniform(0, 50000):.2f}'),
                     esfera_administrativa=random.choice(EsferaAdministrativa.values),
                     ementa=fake.sentence(nb_words=8),
-                    mes_da_aprovacao=random.randint(1, 12),
+                    data_da_aprovacao=fake.date_between(
+                        start_date='-5y', end_date='today'
+                    ),
+                    valor_do_contrato=Decimal(f'{random.uniform(0, 50000):.2f}'),
                 )
             )
 
@@ -65,8 +68,7 @@ class Command(BaseCommand):
             faltam = minimo - total_atual
             self.stdout.write(
                 self.style.WARNING(
-                    f'Cadastrando {faltam} novas '
-                    f'pessoas para suprir os coordenadores...'
+                    f'Cadastrando {faltam} novas pessoas para suprir os coordenadores...'
                 )
             )
 
