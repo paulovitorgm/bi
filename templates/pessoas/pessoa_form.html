@@ -1,0 +1,47 @@
+{% extends 'partials/_base.html' %}
+
+{% block content %}
+<div class="container my-4" style="max-width: 700px;">
+  <div class="card shadow-sm border-0">
+    <div class="card-body p-4">
+      <h3 class="card-title mb-4 border-bottom pb-2">
+        {% if form.instance.pk %}Editar Pessoa{% else %}Cadastrar Nova Pessoa{% endif %}
+      </h3>
+
+      <form method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+
+        <div class="row">
+          {% for field in form %}
+            <!-- Ajuste de largura: CPF e Matrícula/Siape em colunas de 6, Nome em coluna de 12 -->
+            {% if field.name == 'nome' or field.field.widget.input_type == 'textarea' %}
+              <div class="col-12 mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                  <div class="text-danger small mt-1">{{ field.errors|strip_tags }}</div>
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="col-md-6 mb-3">
+                <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                  <div class="text-danger small mt-1">{{ field.errors|strip_tags }}</div>
+                {% endif %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 pt-3 border-top mt-3">
+          <a href="{% url 'pessoa_list' %}" class="btn btn-outline-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-primary">
+            <i class="bi bi-person-check me-1"></i> Salvar Pessoa
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

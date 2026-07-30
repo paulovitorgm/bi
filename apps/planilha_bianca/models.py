@@ -18,20 +18,21 @@ class PlanilhaModel(models.Model):
         blank=False,
         null=False,
         related_name='planilha_processo_sei',
-        db_index=True
+        db_index=True,
     )
     data_inicio = models.DateField(blank=False, null=False)
     data_termino = models.DateField(blank=False, null=False)
     valor_inicial = models.DecimalField(max_digits=18, decimal_places=2)
     sigla = models.CharField(max_length=20, blank=False, null=False)
-    executor = models.ForeignKey(PessoaModel,
-                                 on_delete=models.CASCADE,
-                                 related_name='planilha_executor',
-                                 )
+    executor = models.ForeignKey(
+        PessoaModel,
+        on_delete=models.CASCADE,
+        related_name='planilha_executor',
+    )
     # coordenador
-    supervisor = models.ForeignKey(PessoaModel,
-                                   on_delete=models.CASCADE,
-                                   related_name='planilha_supervisor')
+    supervisor = models.ForeignKey(
+        PessoaModel, on_delete=models.CASCADE, related_name='planilha_supervisor'
+    )
     # coordenador substituto
     substituto = models.ForeignKey(
         PessoaModel,
@@ -55,9 +56,9 @@ class PlanilhaModel(models.Model):
         related_name='planilha_entidade',
     )
     pste = models.BooleanField(blank=False, null=False)
-    participes = models.ManyToManyField(EntidadeModel,
+    participes = models.ManyToManyField(
+        EntidadeModel,
     )
-
 
     class Meta:
         db_table = 'Planilha'

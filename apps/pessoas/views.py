@@ -19,9 +19,10 @@ class PessoaCreate(CreateView):
     success_url = reverse_lazy('listar-pessoas')
 
 
+
 class PessoaUpdate(UpdateView):
     model = PessoaModel
-    template_name = 'pessoas/editar.html'
+    template_name = 'pessoas/form.html'
     form_class = PessoaForm
     context_object_name = 'editar-pessoa'
     slug_field = 'matricula'
@@ -45,12 +46,11 @@ class PessoaListView(ListView):
 
 class PessoaDelete(DeleteView):
     model = PessoaModel
-    template_name = "pessoas/confirmacao.html"
-    context_object_name = "pessoa"
-    slug_field = "matricula"
-    slug_url_kwarg = "matricula"
-    success_url = reverse_lazy("listar-pessoas")
-
+    template_name = 'pessoas/confirmacao.html'
+    context_object_name = 'pessoa'
+    slug_field = 'matricula'
+    slug_url_kwarg = 'matricula'
+    success_url = reverse_lazy('listar-pessoas')
 
 
 def buscar_pessoa_para_excluir(request):

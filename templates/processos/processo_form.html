@@ -1,0 +1,298 @@
+{% extends "partials/_base.html" %}
+{% load custom_filters %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h2>
+        {% if form.instance.pk %}
+            Editar Processo
+        {% else %}
+            Novo Processo
+        {% endif %}
+    </h2>
+
+    <form method="post" class="needs-validation">
+
+        {% csrf_token %}
+
+        <!-- ====================================== -->
+        <!-- IDENTIFICAÇÃO -->
+        <!-- ====================================== -->
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header">
+                <strong>Identificação</strong>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.processo.label_tag }}
+                        {{ form.processo }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.numero_convenio.label_tag }}
+                        {{ form.numero_convenio }}
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        {{ form.ementa.label_tag }}
+                        {{ form.ementa }}
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        {{ form.participes_texto.label_tag }}
+                        {{ form.participes_texto }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ====================================== -->
+        <!-- CLASSIFICAÇÃO -->
+        <!-- ====================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header">
+                <strong>Classificação</strong>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.tipo_instrumento.label_tag }}
+                        {{ form.tipo_instrumento }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.esfera_administrativa.label_tag }}
+                        {{ form.esfera_administrativa }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.natureza.label_tag }}
+                        {{ form.natureza }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.abrangencia.label_tag }}
+                        {{ form.abrangencia }}
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        {{ form.modalidade.label_tag }}
+                        {{ form.modalidade }}
+                    </div>
+
+                    <div class="col-12 mb-3">
+                        {{ form.unidade_interessada.label_tag }}
+                        {{ form.unidade_interessada }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ====================================== -->
+        <!-- PESSOAS -->
+        <!-- ====================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header">
+                <strong>Pessoas</strong>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.coordenador.label_tag }}
+                        {{ form.coordenador }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.supervisor_academico.label_tag }}
+                        {{ form.supervisor_academico }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.relator.label_tag }}
+                        {{ form.relator }}
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.substituto.label_tag }}
+                        {{ form.substituto }}
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        {{ form.entidade_parceira.label_tag }}
+                        {{ form.entidade_parceira }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ====================================== -->
+        <!-- VALORES -->
+        <!-- ====================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header">
+                <strong>Valores</strong>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        {{ form.valor_inicial.label_tag }}
+                        {{ form.valor_inicial }}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        {{ form.valor_total.label_tag }}
+                        {{ form.valor_total }}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        {{ form.custos_indiretos.label_tag }}
+                        {{ form.custos_indiretos }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ====================================== -->
+        <!-- DATAS -->
+        <!-- ====================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header">
+                <strong>Datas</strong>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        {{ form.dt_inicio.label_tag }}
+                        {{ form.dt_inicio }}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        {{ form.dt_termino.label_tag }}
+                        {{ form.dt_termino }}
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        {{ form.dt_assinatura.label_tag }}
+                        {{ form.dt_assinatura }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ====================================== -->
+        <!-- CONTROLE -->
+        <!-- ====================================== -->
+
+        <div class="card shadow-sm mb-4">
+
+            <div class="card-header">
+                <strong>Controle</strong>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        {{ form.forma_aprovacao.label_tag }}
+                        {{ form.forma_aprovacao }}
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="form-check form-switch mt-4">
+
+                            {{ form.pste }}
+
+                            <label class="form-check-label">
+
+                                {{ form.pste.label }}
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <div class="form-check form-switch mt-4">
+
+                            {{ form.coordenado_por_mulheres }}
+
+                            <label class="form-check-label">
+
+                                {{ form.coordenado_por_mulheres.label }}
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <button class="btn btn-primary btn-lg">
+
+            Salvar Processo
+
+        </button>
+
+        <a href="{% url 'processo_list' %}"
+
+           class="btn btn-secondary btn-lg">
+
+            Cancelar
+
+        </a>
+
+    </form>
+
+</div>
+
+{% endblock %}

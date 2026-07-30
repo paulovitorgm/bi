@@ -1,0 +1,89 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand" href="#">Base de Dados BI</a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+
+            <ul class="navbar-nav">
+
+                <!-- Processos -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'processo_list' %}">
+                        Processos
+                    </a>
+                </li>
+
+                <!-- Pessoas -->
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown">
+                        Pessoas
+                    </a>
+
+                    <ul class="dropdown-menu">
+
+                        <li>
+                            <a class="dropdown-item"
+                               href="{% url 'listar-pessoas' %}">
+                                Listar Pessoas
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               href="{% url 'criar-pessoa' %}">
+                                Nova Pessoa
+                            </a>
+                        </li>
+
+                        <li>
+                            <a class="dropdown-item"
+                               href="{% url 'buscar-processo' %}">
+                                Buscar Pessoa
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
+
+                <!-- Cadastros -->
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle"
+                       href="#"
+                       role="button"
+                       data-bs-toggle="dropdown">
+                        Cadastros
+                    </a>
+
+                    <ul class="dropdown-menu">
+
+                        <li><a class="dropdown-item" href="{% url 'unidade_list' %}">Unidades</a></li>
+                        <li><a class="dropdown-item" href="{% url 'entidade_parceira_list' %}">Entidades Parceiras</a></li>
+                        <li><a class="dropdown-item" href="{% url 'modalidade_list' %}">Modalidades</a></li>
+                        <li><a class="dropdown-item" href="{% url 'natureza_listar' %}">Naturezas</a></li>
+
+                    </ul>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>

@@ -32,7 +32,7 @@ class ControleDeProcessosListView(ListView):
 
 class ControleDeProcessosUpdate(UpdateView):
     model = ControleDeProcessosModel
-    template_name = 'controle_de_processos/processos/editar.html'
+    template_name = 'controle_de_processos/processos/form.html'
     form_class = ControleDeProcessosForm
     context_object_name = 'processo'
     slug_field = 'processo_sei'

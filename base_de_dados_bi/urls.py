@@ -6,4 +6,5 @@ urlpatterns = [
     path('', include('apps.base.urls')),
     path('controle-de-processos/', include('apps.controle_de_processos_capro.urls')),
     path('pessoas/', include('apps.pessoas.urls')),
+    path('processos/', include('apps.processos.urls')),
 ]
