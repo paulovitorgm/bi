@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -41,6 +42,7 @@ class PessoaListView(ListView):
     model = PessoaModel
     template_name = 'pessoas/listar.html'
     context_object_name = 'pessoas'
+    paginate_by = 20
 
 
 class PessoaDelete(DeleteView):
@@ -73,3 +75,51 @@ def buscar_pessoa_para_excluir(request):
     else:
         form = BuscarPessoaForm()
     return render(request, 'pessoas/busca.html', {'form': form})
+
+
+# Modais
+
+
+class ModalCreateView(CreateView):
+    label_field = None
+
+    def get_label(self, obj):
+        if self.label_field:
+            return getattr(obj, self.label_field)
+        return str(obj)
+
+    def form_valid(self, form):
+        obj = form.save()
+
+        return JsonResponse({
+            'success': True,
+            'id': obj.pk,
+            'text': self.get_label(obj),
+        })
+
+
+class ModalMixin:
+    """
+    Funcionalidades comuns para todas as views carregadas em modal.
+    """
+
+    label_field = None
+
+    def get_label(self, obj):
+        if self.label_field:
+            return getattr(obj, self.label_field)
+        return str(obj)
+
+    def json_success(self, obj, message='Operação realizada com sucesso.'):
+        return JsonResponse({
+            'success': True,
+            'id': obj.pk,
+            'text': self.get_label(obj),
+            'message': message,
+        })
+
+    def form_invalid(self, form):
+        return self.render_to_response(
+            self.get_context_data(form=form),
+            status=400,
+        )

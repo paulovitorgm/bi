@@ -5,6 +5,38 @@
             <h2>Processos</h2>
             <a href="{% url 'processo_criar' %}" class="btn btn-success">Novo Processo</a>
         </div>
+        <div class="d-flex justify-content-between mb-3"></div>
+        <nav class="pagination-container">
+            {% if is_paginated %}
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li>
+                            <a href="?page=1">&laquo;</a>
+                        </li>
+                        <li>
+                            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+                        </li>
+                    {% endif %}
+                    {% for page in paginator.page_range %}
+                        {% if page == page_obj.number %}
+                            <li class="active">{{ page }}</li>
+                        {% elif page >= page_obj.number|add:"-2" and page <= page_obj.number|add:"2" %}
+                            <li>
+                                <a href="?page={{ page }}&{{ querystring }}">{{ page }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                        <li>
+                            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                        </li>
+                        <li>
+                            <a href="?page={{ paginator.num_pages }}">&raquo;</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endif %}
+        </nav>
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle">
                 <thead class="table-dark">
@@ -43,6 +75,15 @@
                     {% endfor %}
                 </tbody>
             </table>
+            <span>
+                Mostrando
+                {{ page_obj.start_index }}
+                -
+                {{ page_obj.end_index }}
+                de
+                {{ paginator.count }}
+                processos
+            </span>
         </div>
     </div>
 {% endblock %}

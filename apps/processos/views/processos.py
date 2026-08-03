@@ -28,6 +28,33 @@ class ProcessoListView(ListView):
     paginate_by = 20
     ordering = ['-id']
 
+    def get_paginate_by(self, queryset):
+        return self.request.GET.get('per_page', 20)
+
+    def get_queryset(self):  # ruff: ignore[no-self-use]
+        return (
+            ProcessoProjeto.objects
+            .select_related(
+                'coordenador',
+                'entidade_parceira',
+                'relator',
+                'substituto',
+            )
+            .prefetch_related(
+                'modalidade',
+                'natureza',
+                'unidade_interessada',
+            )
+            .order_by('-dt_assinatura')
+        )
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        querydict = self.request.GET.copy()
+        querydict.pop('page', None)
+        context['querystring'] = querydict.urlencode()
+        return context
+
 
 class ProcessoCreateView(CreateView):
     model = ProcessoProjeto

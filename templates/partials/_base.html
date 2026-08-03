@@ -12,6 +12,13 @@
               rel="stylesheet">
     </head>
     <body>
+        <div class="modal fade" id="crudModal" tabindex="-1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div id="crudModalContent"></div>
+                </div>
+            </div>
+        </div>
         {% include "partials/_nav.html" %}
         {% block content %}{% endblock %}
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

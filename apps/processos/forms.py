@@ -157,6 +157,17 @@ class ProcessoProjetoForm(forms.ModelForm):
             'pste': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
+        def clean(self):
+            cleaned_data = super().clean()
+            dt_inicio = cleaned_data.get('dt_inicio')
+            dt_termino = cleaned_data.get('dt_termino')
+
+            # Data de término não pode ser anterior à data de início
+            if dt_inicio and dt_termino and dt_termino < dt_inicio:
+                raise forms.ValidationError(
+                    'A data de término não pode ser anterior à data de início.'
+                )
+
 
 # ==========================================
 # FORMULÁRIO: ITENS DO PLANO DE DESPESA
