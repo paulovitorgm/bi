@@ -3,11 +3,25 @@ from decimal import Decimal
 from django.core.validators import RegexValidator
 from django.db import models
 
-from apps.pessoas.models import PessoaModel
+from apps.pessoas.models import PessoaModel, SexoChoices
 
 # ==========================================
 # TABELAS DE DOMÍNIO / DIMENSÕES
 # ==========================================
+
+
+class ParticipesModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    nome = models.CharField(max_length=255)
+    sigla = models.CharField(max_length=30, unique=True, db_index=True)
+
+    class Meta:
+        ordering = ['sigla']
+        verbose_name = 'Participe'
+        verbose_name_plural = 'Participes'
+
+    def __str__(self):
+        return f'{self.sigla} - {self.nome}'
 
 
 class PublicoPrivado(models.TextChoices):
@@ -15,8 +29,24 @@ class PublicoPrivado(models.TextChoices):
     PRIVADO = 'Privado', 'Privado'
 
 
-class Onu(models.Model):
-    pass
+class OdsOnuChoices(models.TextChoices):
+    ODS_1 = '1', '1. Erradicação da Pobreza'
+    ODS_2 = '2', '2. Fome Zero e Agricultura Sustentável'
+    ODS_3 = '3', '3. Saúde e Bem-Estar'
+    ODS_4 = '4', '4. Educação de Qualidade'
+    ODS_5 = '5', '5. Igualdade de Gênero'
+    ODS_6 = '6', '6. Água Potável e Saneamento'
+    ODS_7 = '7', '7. Energia Limpa e Acessível'
+    ODS_8 = '8', '8. Trabalho Decente e Crescimento Econômico'
+    ODS_9 = '9', '9. Indústria, Inovação e Infraestrutura'
+    ODS_10 = '10', '10. Redução das Desigualdades'
+    ODS_11 = '11', '11. Cidades e Comunidades Sustentáveis'
+    ODS_12 = '12', '12. Consumo e Produção Responsáveis'
+    ODS_13 = '13', '13. Ação Contra a Mudança Global do Clima'
+    ODS_14 = '14', '14. Vida na Água'
+    ODS_15 = '15', '15. Vida Terrestre'
+    ODS_16 = '16', '16. Paz, Justiça e Instituições Eficazes'
+    ODS_17 = '17', '17. Parcerias e Meios de Implementação'
 
 
 class Unidade(models.Model):
@@ -131,7 +161,7 @@ class ProcessoProjeto(models.Model):
         max_length=20,
         unique=True,
         db_index=True,
-        help_text='Apenas números para busca rápida ex: 23106092037202530',
+        help_text='Apenas números para busca rápida ex: 2310600000000001',
         validators=[
             RegexValidator(
                 regex=r'^\d+$', message='O processo deve conter apenas números.'
@@ -142,9 +172,10 @@ class ProcessoProjeto(models.Model):
         max_length=50, blank=True, null=True, db_index=True
     )
     # Detalhes
+    nome_do_processo = models.CharField(max_length=255, blank=False, null=False)
     ementa = models.TextField(blank=True, null=True)
-    participes_texto = models.TextField(
-        blank=True, null=True, help_text='Texto bruto de partícipes se necessário'
+    participes = models.ManyToManyField(
+        ParticipesModel, blank=True, related_name='processos'
     )
     # Chaves Estrangeiras de Domínio
     unidade_interessada = models.ManyToManyField(
@@ -226,8 +257,8 @@ class ProcessoProjeto(models.Model):
     # Metadados de Controle Interno / Tramitação
     # tempo_tramitacao = models.CharField(max_length=100, blank=True, null=True)
     forma_aprovacao = models.CharField(max_length=150, blank=True, null=True)
+    ods_onu = models.CharField(max_length=50, choices=OdsOnuChoices.choices, blank=True)
     pste = models.BooleanField(blank=False, null=False, default=False)
-    coordenado_por_mulheres = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Processo'
@@ -241,6 +272,12 @@ class ProcessoProjeto(models.Model):
 
     def __str__(self):
         return f'SEI nº: {self.processo}'
+
+    def save(self, *args, **kwargs):
+        self.coordenado_por_mulheres = (
+            self.coordenador is not None and self.coordenador.sexo == SexoChoices.FEM
+        )
+        super().save(*args, **kwargs)
 
 
 # ==========================================

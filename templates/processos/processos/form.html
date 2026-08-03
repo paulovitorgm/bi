@@ -1,0 +1,171 @@
+{% extends "partials/_base.html" %}
+{% block content %}
+    <div class="container mt-4 mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                {% if form.instance.pk %}
+                    Editar Processo
+                {% else %}
+                    Novo Processo
+                {% endif %}
+            </h2>
+            <a href="{% url 'processo_listar' %}" class="btn btn-secondary">Voltar</a>
+        </div>
+        <form method="post">
+            {% csrf_token %}
+            <!-- Identificação -->
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">Identificação</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.processo.label }}</label>
+                            {{ form.processo }}
+                            {% for error in form.processo.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">{{ form.numero_convenio.label }}</label>
+                            {{ form.numero_convenio }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Informações do projeto -->
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">Informações do Projeto</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.ementa.label }}</label>
+                        {{ form.ementa }}
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.participes_texto.label }}</label>
+                        {{ form.participes_texto }}
+                    </div>
+                </div>
+            </div>
+            <!-- Classificação -->
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">Classificação</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.tipo_instrumento.label }}</label>
+                            {{ form.tipo_instrumento }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.esfera_administrativa.label }}</label>
+                            {{ form.esfera_administrativa }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.abrangencia.label }}</label>
+                            {{ form.abrangencia }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.unidade_interessada.label }}</label>
+                            {{ form.unidade_interessada }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.modalidade.label }}</label>
+                            {{ form.modalidade }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.natureza.label }}</label>
+                            {{ form.natureza }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Responsáveis -->
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">Responsáveis</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">{{ form.coordenador.label }}</label>
+                            {{ form.coordenador }}
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">{{ form.supervisor_academico.label }}</label>
+                            {{ form.supervisor_academico }}
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">{{ form.relator.label }}</label>
+                            {{ form.relator }}
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">{{ form.substituto.label }}</label>
+                            {{ form.substituto }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Valores -->
+            <div class="card mb-3">
+                <div class="card-header bg-success text-white">Valores Financeiros</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.valor_total.label }}</label>
+                            {{ form.valor_total }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.valor_inicial.label }}</label>
+                            {{ form.valor_inicial }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.custos_indiretos.label }}</label>
+                            {{ form.custos_indiretos }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Datas -->
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">Datas</div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.dt_assinatura.label }}</label>
+                            {{ form.dt_assinatura }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.dt_inicio.label }}</label>
+                            {{ form.dt_inicio }}
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">{{ form.dt_termino.label }}</label>
+                            {{ form.dt_termino }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Outros -->
+            <div class="card mb-3">
+                <div class="card-header bg-secondary text-white">Informações Complementares</div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">{{ form.forma_aprovacao.label }}</label>
+                        {{ form.forma_aprovacao }}
+                    </div>
+                    <div class="form-check form-switch mb-3">
+                        {{ form.pste }}
+                        <label class="form-check-label">{{ form.pste.label }}</label>
+                    </div>
+                    <div class="form-check form-switch">
+                        {{ form.coordenado_por_mulheres }}
+                        <label class="form-check-label">{{ form.coordenado_por_mulheres.label }}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end gap-2">
+                <a href="{% url 'processo_listar' %}" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

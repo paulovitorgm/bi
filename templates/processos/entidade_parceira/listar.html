@@ -1,112 +1,40 @@
 {% extends "partials/_base.html" %}
-
 {% block content %}
-
-<div class="container mt-4">
-
-<div class="d-flex justify-content-between mb-3">
-
-<h2>
-Entidades Parceiras
-</h2>
-
-
-<a href="{% url 'entidade_parceira_create' %}"
-class="btn btn-primary">
-
-Nova Entidade
-
-</a>
-
-</div>
-
-
-<table class="table table-striped">
-
-<thead>
-
-<tr>
-
-<th>Sigla</th>
-<th>Nome</th>
-<th>CNPJ/CPF</th>
-<th>Tipo</th>
-<th>Ações</th>
-
-</tr>
-
-</thead>
-
-
-<tbody>
-
-{% for entidade in entidades %}
-
-<tr>
-
-<td>
-{{ entidade.sigla }}
-</td>
-
-
-<td>
-{{ entidade.nome }}
-</td>
-
-
-<td>
-{{ entidade.cnpj_cpf|default:"-" }}
-</td>
-
-
-<td>
-{{ entidade.publico_privado }}
-</td>
-
-
-<td>
-
-
-<a href="{% url 'entidade_parceira_update' entidade.pk %}"
-class="btn btn-sm btn-warning">
-
-Editar
-
-</a>
-
-
-<a href="{% url 'entidade_parceira_delete' entidade.pk %}"
-class="btn btn-sm btn-danger">
-
-Excluir
-
-</a>
-
-
-</td>
-
-</tr>
-
-
-{% empty %}
-
-<tr>
-
-<td colspan="5">
-Nenhuma entidade cadastrada.
-</td>
-
-</tr>
-
-
-{% endfor %}
-
-</tbody>
-
-
-</table>
-
-
-</div>
-
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between mb-3">
+            <h2>Entidades Parceiras</h2>
+            <a href="{% url 'entidade_parceira_create' %}" class="btn btn-primary">Nova Entidade</a>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Sigla</th>
+                    <th>Nome</th>
+                    <th>CNPJ/CPF</th>
+                    <th>Tipo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entidade in entidades %}
+                    <tr>
+                        <td>{{ entidade.sigla }}</td>
+                        <td>{{ entidade.nome }}</td>
+                        <td>{{ entidade.cnpj_cpf|default:"-" }}</td>
+                        <td>{{ entidade.publico_privado }}</td>
+                        <td>
+                            <a href="{% url 'entidade_parceira_update' entidade.pk %}"
+                               class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{% url 'entidade_parceira_delete' entidade.pk %}"
+                               class="btn btn-sm btn-danger">Excluir</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5">Nenhuma entidade cadastrada.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

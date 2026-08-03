@@ -21,10 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'apps.base',
-    'apps.controle_de_processos_capro',
     'apps.pessoas',
-    'apps.planilha_bianca',
-    'apps.entidade',
     'apps.processos',
 
 ]

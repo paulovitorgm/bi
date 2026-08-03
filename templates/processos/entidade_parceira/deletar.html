@@ -1,43 +1,11 @@
 {% extends "partials/_base.html" %}
-
 {% block content %}
-
-<div class="container mt-4">
-
-<h3>
-
-Deseja excluir:
-
-{{ object.sigla }} - {{ object.nome }}
-
-?
-
-</h3>
-
-
-<form method="post">
-
-{% csrf_token %}
-
-
-<button class="btn btn-danger">
-
-Confirmar
-
-</button>
-
-
-<a href="{% url 'entidade_parceira_list' %}"
-class="btn btn-secondary">
-
-Cancelar
-
-</a>
-
-
-</form>
-
-
-</div>
-
+    <div class="container mt-4">
+        <h3>Deseja excluir:{{ object.sigla }} - {{ object.nome }}?</h3>
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-danger">Confirmar</button>
+            <a href="{% url 'entidade_parceira_listar' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
 {% endblock %}

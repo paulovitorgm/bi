@@ -32,6 +32,7 @@ faker = "^40.36.0"
 pytest = "^9.1.1"
 pytest-cov = "^7.1.0"
 typos = "^1.48.0"
+djlint = "^1.43.2"
 
 
 [tool.poetry.group.dev]
@@ -57,7 +58,8 @@ ignore = ['PT009', 'PT011','PT027']
 
 [tool.taskipy.tasks]
 lint = 'ruff check .; ruff check . --diff'
-format = 'ruff check . --fix && ruff format .'
+#format = 'ruff check . --fix && ruff format .'
+format = "ruff check . --fix && ruff format . && djlint . --reformat"
 run = 'python manage.py runserver'
 m = 'python manage.py'
 pre_test = 'task lint'

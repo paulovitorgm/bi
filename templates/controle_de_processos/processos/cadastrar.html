@@ -1,35 +1,22 @@
 {% extends 'partials/_base.html' %}
-
 {% block content %}
-
-<div class="container mt-4">
-
-    <h1>Cadastrar Processo</h1>
-
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="mb-3">
-            {{ field.label_tag }}
-            {{ field }}
-            {% if field.help_text %}
-                <div class="form-text">
-                    {{ field.help_text }}
+    <div class="container mt-4">
+        <h1>Cadastrar Processo</h1>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="mb-3">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <div class="form-text">{{ field.help_text }}</div>
+                    {% endif %}
+                    {% if field.errors %}
+                        <div class="text-danger">{{ field.errors }}</div>
+                    {% endif %}
                 </div>
-            {% endif %}
-            {% if field.errors %}
-                <div class="text-danger">
-                    {{ field.errors }}
-                </div>
-            {% endif %}
-        </div>
-        {% endfor %}
-        <button class="btn btn-primary" type="submit">
-            Cadastrar
-        </button>
-
-    </form>
-
-</div>
-
+            {% endfor %}
+            <button class="btn btn-primary" type="submit">Cadastrar</button>
+        </form>
+    </div>
 {% endblock %}

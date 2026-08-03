@@ -15,17 +15,17 @@ class UnidadeCreateView(CreateView):
     model = Unidade
     form_class = UnidadeForm
     template_name = 'processos/unidade/form.html'
-    success_url = reverse_lazy('unidade_list')
+    success_url = reverse_lazy('unidade_listar')
 
 
 class UnidadeUpdateView(UpdateView):
     model = Unidade
     form_class = UnidadeForm
     template_name = 'processos/unidade/form.html'
-    success_url = reverse_lazy('unidade_list')
+    success_url = reverse_lazy('unidade_listar')
 
 
 class UnidadeDeleteView(DeleteView):
     model = Unidade
     template_name = 'processos/unidade/deletar.html'
-    success_url = reverse_lazy('unidade_list')
+    success_url = reverse_lazy('unidade_listar')

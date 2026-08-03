@@ -1,45 +1,44 @@
 {% extends 'partials/_base.html' %}
-
 {% load custom_filters %}
-
 {% block content %}
-<div class="table-responsive">
-    <table class="table table-striped table-hover ">
-        <thead>
-            <tr>
-            <th>Processo</th>
-            <th>Modalidade</th>
-            <th>Coordenador</th>
-            <th>Custos indiretos</th>
-            <th>Ementa</th>
-            <th>Ação</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for processo in processos %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover ">
+            <thead>
                 <tr>
-                    <th>{{ processo.processo_sei|sei_mask}}</th>
-                    <td>{{ processo.modalidade }}</td>
-                    <td>{{ processo.coordenador }}</td>
-                    <td>{{ processo.custos_indiretos }}</td>
-                    <td>{{ processo.ementa }} </td>
-                    <td>
-                        <a href="{% url 'detalhar-processo' processo.processo_sei %}">
-                            <button type="button" class="btn btn-info">Detalhes</button></a>
-                        <a href="{% url 'editar-processo'  processo.processo_sei %}">
-                            <button type="button" class="btn btn-warning">Editar</button></a>
-                        <a href="{% url 'confirmar-exclusao-processo'  processo.processo_sei %}">
-                            <button type="button" class="btn btn-danger">Excluir</button></a>
-
-                    </td>
+                    <th>Processo</th>
+                    <th>Modalidade</th>
+                    <th>Coordenador</th>
+                    <th>Custos indiretos</th>
+                    <th>Ementa</th>
+                    <th>Ação</th>
                 </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="10"> Nenhum processo encontrado.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
+            </thead>
+            <tbody>
+                {% for processo in processos %}
+                    <tr>
+                        <th>{{ processo.processo_sei|sei_mask }}</th>
+                        <td>{{ processo.modalidade }}</td>
+                        <td>{{ processo.coordenador }}</td>
+                        <td>{{ processo.custos_indiretos }}</td>
+                        <td>{{ processo.ementa }}</td>
+                        <td>
+                            <a href="{% url 'detalhar-processo' processo.processo_sei %}">
+                                <button type="button" class="btn btn-info">Detalhes</button>
+                            </a>
+                            <a href="{% url 'editar-processo' processo.processo_sei %}">
+                                <button type="button" class="btn btn-warning">Editar</button>
+                            </a>
+                            <a href="{% url 'confirmar-exclusao-processo' processo.processo_sei %}">
+                                <button type="button" class="btn btn-danger">Excluir</button>
+                            </a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="10">Nenhum processo encontrado.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}

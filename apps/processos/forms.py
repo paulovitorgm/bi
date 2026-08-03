@@ -1,14 +1,14 @@
 from django import forms
 
-from .models import (
+from apps.processos.models import (
     EntidadeParceira,
     ItemPlanoDespesa,
+    Modalidade,
+    Natureza,
     PessoaModel,
     ProcessoProjeto,
     TipoDespesa,
     Unidade,
-    Modalidade,
-    Natureza
 )
 
 
@@ -19,6 +19,7 @@ class ProcessoProjetoForm(forms.ModelForm):
         labels = {
             'processo': 'Processo SEI',
             'numero_convenio': 'Número do Convênio',
+            'nome_do_processo': 'Nome do Processo',
             'ementa': 'Ementa',
             'participes_texto': 'Partícipes do projeto',
             'tipo_instrumento': 'Tipo de instrumento',
@@ -39,18 +40,27 @@ class ProcessoProjetoForm(forms.ModelForm):
             'dt_termino': 'Data de Término',
             'dt_assinatura': 'Data da Assinatura',
             'forma_aprovacao': 'Forma de aprovação',
+            'ods_onu': 'ODS da ONU',
             'pste': 'PSTE',
-            'coordenado_por_mulheres': 'Projeto coordenado por mulher',
         }
         widgets = {
             'processo': forms.TextInput(
                 attrs={
                     'class': 'form-control',
-                    'placeholder': 'Apenas números ex: 23106092037202530',
+                    'placeholder': '23106092037202530',
+                    'inputmode': 'numeric',
+                    'pattern': '[0-9]*',
+                    'oninput': 'this.value=this.value.replace(/\\D/g,"")',
                 }
             ),
             'numero_convenio': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Número do Convênio'}
+            ),
+            'nome_do_processo': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder': 'Título do processo',
+                }
             ),
             'ementa': forms.Textarea(
                 attrs={
@@ -138,11 +148,13 @@ class ProcessoProjetoForm(forms.ModelForm):
             'dt_assinatura': forms.DateInput(
                 attrs={'class': 'form-control', 'type': 'date'}
             ),
+            'ods_onu': forms.Select(
+                attrs={
+                    'class': 'form-select tomselect',
+                }
+            ),
             # Checkboxes (Switches do Bootstrap)
             'pste': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
-            'coordenado_por_mulheres': forms.CheckboxInput(
-                attrs={'class': 'form-check-input'}
-            ),
         }
 
 
@@ -156,7 +168,7 @@ class ItemPlanoDespesaForm(forms.ModelForm):
         model = ItemPlanoDespesa
         fields = ['tipo_despesa', 'valor']
         widgets = {
-            'tipo_despesa': forms.Select(attrs={'class': 'form-select'}),
+            'tipo_despesa': forms.Select(attrs={'class': 'form-select tomselect'}),
             'valor': forms.NumberInput(
                 attrs={
                     'class': 'form-control',
@@ -216,14 +228,14 @@ class EntidadeParceiraForm(forms.ModelForm):
             'cnpj_cpf': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'CNPJ ou CPF'}
             ),
-            'publico_privado': forms.Select(attrs={'class': 'form-select'}),
+            'publico_privado': forms.Select(attrs={'class': 'form-select tomselect'}),
         }
 
 
 class PessoaForm(forms.ModelForm):
     class Meta:
         model = PessoaModel
-        fields = ['nome']
+        fields = '__all__'
         widgets = {
             'nome': forms.TextInput(
                 attrs={'class': 'form-control', 'placeholder': 'Nome Completo'}
@@ -244,6 +256,7 @@ class TipoDespesaForm(forms.ModelForm):
             ),
         }
 
+
 class ModalidadeForm(forms.ModelForm):
     class Meta:
         model = Modalidade
@@ -255,12 +268,10 @@ class ModalidadeForm(forms.ModelForm):
 
         widgets = {
             'nome': forms.TextInput(
-                attrs={
-                    'class': 'form-control',
-                    'placeholder': 'Nome da modalidade'
-                }
+                attrs={'class': 'form-control', 'placeholder': 'Nome da modalidade'}
             ),
         }
+
 
 class NaturezaForm(forms.ModelForm):
     class Meta:

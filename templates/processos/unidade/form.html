@@ -1,70 +1,29 @@
 {% extends "partials/_base.html" %}
-
 {% block content %}
-
-<div class="container mt-4">
-
-<h2>
-    {% if form.instance.pk %}
-        Editar Unidade
-    {% else %}
-        Nova Unidade
-    {% endif %}
-</h2>
-
-
-<form method="post">
-
-{% csrf_token %}
-
-
-<div class="card">
-
-<div class="card-body">
-
-
-<div class="mb-3">
-
-{{ form.sigla.label_tag }}
-
-{{ form.sigla }}
-
-</div>
-
-
-<div class="mb-3">
-
-{{ form.nome.label_tag }}
-
-{{ form.nome }}
-
-</div>
-
-
-<button class="btn btn-primary">
-
-Salvar
-
-</button>
-
-
-<a href="{% url 'unidade_list' %}"
-   class="btn btn-secondary">
-
-Cancelar
-
-</a>
-
-
-</div>
-
-</div>
-
-
-</form>
-
-
-</div>
-
-
+    <div class="container mt-4">
+        <h2>
+            {% if form.instance.pk %}
+                Editar Unidade
+            {% else %}
+                Nova Unidade
+            {% endif %}
+        </h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        {{ form.sigla.label_tag }}
+                        {{ form.sigla }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.nome.label_tag }}
+                        {{ form.nome }}
+                    </div>
+                    <button class="btn btn-primary">Salvar</button>
+                    <a href="{% url 'unidade_listar' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}

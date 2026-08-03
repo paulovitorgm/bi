@@ -1,4 +1,3 @@
-from django.db.models import Q
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -21,83 +20,47 @@ from apps.processos.models import (
     TipoDespesa,
 )
 
-# ==========================================
-# 1. VIEWS DE PROCESSO / PROJETO
-# ==========================================
-
 
 class ProcessoListView(ListView):
     model = ProcessoProjeto
-    template_name = 'processos/listar.html'
+    template_name = 'processos/processos/listar.html'
     context_object_name = 'processos'
-    paginate_by = 15
-
-    def get_queryset(self):
-        queryset = (
-            super()
-            .get_queryset()
-            .select_related(
-                'unidade_interessada',
-                'modalidade',
-                'coordenador',
-                'entidade_parceira',
-            )
-        )
-
-        q = self.request.GET.get('q')
-        if q:
-            queryset = queryset.filter(
-                Q(numero_processo_limpo__icontains=q)
-                | Q(coordenador__nome__icontains=q)
-                | Q(numero_convenio__icontains=q)
-            )
-        return queryset
-
-
-class ProcessoDetailView(DetailView):
-    model = ProcessoProjeto
-    template_name = 'processos/detalhar.html'
-    context_object_name = 'processo'
-
-    def get_queryset(self):
-        return (
-            super()
-            .get_queryset()
-            .select_related(
-                'unidade_interessada',
-                'modalidade',
-                'natureza',
-                'abrangencia',
-                'entidade_parceira',
-                'coordenador',
-                'supervisor_academico',
-                'relator',
-                'substituto',
-            )
-            .prefetch_related('despesas__tipo_despesa')
-        )
+    paginate_by = 20
+    ordering = ['-id']
 
 
 class ProcessoCreateView(CreateView):
     model = ProcessoProjeto
     form_class = ProcessoProjetoForm
-    template_name = 'processos/processo_form.html'
-    success_url = reverse_lazy('processo_list')
+    template_name = 'processos/processos/form.html'
+    success_url = reverse_lazy('processo_listar')
 
 
 class ProcessoUpdateView(UpdateView):
     model = ProcessoProjeto
     form_class = ProcessoProjetoForm
-    template_name = 'processos/processo_form.html'
+    template_name = 'processos/processos/form.html'
+    success_url = reverse_lazy('processo_listar')
 
-    def get_success_url(self):
-        return reverse('processo_detail', kwargs={'pk': self.object.pk})
+    slug_field = 'processo'
+    slug_url_kwarg = 'processo'
 
 
 class ProcessoDeleteView(DeleteView):
     model = ProcessoProjeto
-    template_name = 'processos/confirmacao.html'
-    success_url = reverse_lazy('processo_list')
+    template_name = 'processos/processos/deletar.html'
+    success_url = reverse_lazy('processo_listar')
+
+    slug_field = 'processo'
+    slug_url_kwarg = 'processo'
+
+
+class ProcessoDetailView(DetailView):
+    model = ProcessoProjeto
+    template_name = 'processos/processos/detalhes.html'
+    context_object_name = 'processo'
+    slug_field = 'processo'
+    slug_url_kwarg = 'processo'
 
 
 # ==========================================
@@ -150,7 +113,7 @@ class PessoaListView(ListView):
 class PessoaCreateView(CreateView):
     model = PessoaModel
     form_class = PessoaForm
-    template_name = 'dominios/pessoa_form.html'
+    template_name = 'dominios/form.html'
     success_url = reverse_lazy('pessoa_list')
 
 

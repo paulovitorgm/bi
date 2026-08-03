@@ -1,29 +1,14 @@
 {% extends "partials/_base.html" %}
-
 {% block content %}
-
-<div class="container mt-4">
-
-    <h2>Excluir Natureza</h2>
-
-    <p>
-        Deseja realmente excluir <strong>{{ object.nome }}</strong>?
-    </p>
-
-    <form method="post">
-
-        {% csrf_token %}
-
-        <button class="btn btn-danger">
-            Confirmar
-        </button>
-
-        <a href="{% url 'natureza_listar' %}" class="btn btn-secondary">
-            Cancelar
-        </a>
-
-    </form>
-
-</div>
-
+    <div class="container mt-4">
+        <h2>Excluir Natureza</h2>
+        <p>
+            Deseja realmente excluir <strong>{{ object.nome }}</strong>?
+        </p>
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-danger">Confirmar</button>
+            <a href="{% url 'natureza_listar' %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
 {% endblock %}

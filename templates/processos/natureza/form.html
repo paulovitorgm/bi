@@ -1,44 +1,25 @@
 {% extends "partials/_base.html" %}
-
 {% block content %}
-
-<div class="container mt-4">
-
-    <h2>
-        {% if form.instance.pk %}
-            Editar Natureza
-        {% else %}
-            Nova Natureza
-        {% endif %}
-    </h2>
-
-    <form method="post">
-
-        {% csrf_token %}
-
-        <div class="card shadow-sm">
-
-            <div class="card-body">
-
-                <div class="mb-3">
-                    {{ form.nome.label_tag }}
-                    {{ form.nome }}
+    <div class="container mt-4">
+        <h2>
+            {% if form.instance.pk %}
+                Editar Natureza
+            {% else %}
+                Nova Natureza
+            {% endif %}
+        </h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3">
+                        {{ form.nome.label_tag }}
+                        {{ form.nome }}
+                    </div>
                 </div>
-
             </div>
-
-        </div>
-
-        <button class="btn btn-primary mt-3">
-            Salvar
-        </button>
-
-        <a href="{% url 'natureza_listar' %}" class="btn btn-secondary mt-3">
-            Cancelar
-        </a>
-
-    </form>
-
-</div>
-
+            <button class="btn btn-primary mt-3">Salvar</button>
+            <a href="{% url 'natureza_listar' %}" class="btn btn-secondary mt-3">Cancelar</a>
+        </form>
+    </div>
 {% endblock %}

@@ -19,7 +19,6 @@ class PessoaCreate(CreateView):
     success_url = reverse_lazy('listar-pessoas')
 
 
-
 class PessoaUpdate(UpdateView):
     model = PessoaModel
     template_name = 'pessoas/form.html'

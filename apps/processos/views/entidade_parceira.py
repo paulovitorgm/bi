@@ -20,17 +20,17 @@ class EntidadeParceiraCreateView(CreateView):
     model = EntidadeParceira
     form_class = EntidadeParceiraForm
     template_name = 'processos/entidade_parceira/form.html'
-    success_url = reverse_lazy('entidade_parceira_list')
+    success_url = reverse_lazy('entidade_parceira_listar')
 
 
 class EntidadeParceiraUpdateView(UpdateView):
     model = EntidadeParceira
     form_class = EntidadeParceiraForm
     template_name = 'processos/entidade_parceira/form.html'
-    success_url = reverse_lazy('entidade_parceira_list')
+    success_url = reverse_lazy('entidade_parceira_listar')
 
 
 class EntidadeParceiraDeleteView(DeleteView):
     model = EntidadeParceira
     template_name = 'processos/entidade_parceira/deletar.html'
-    success_url = reverse_lazy('entidade_parceira_list')
+    success_url = reverse_lazy('entidade_parceira_listar')

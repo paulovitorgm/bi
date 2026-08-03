@@ -1,0 +1,181 @@
+{% extends "partials/_base.html" %}
+{% block content %}
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Detalhes do Processo</h2>
+            <div>
+                <a href="{% url 'processo_editar' processo.processo %}"
+                   class="btn btn-warning">Editar</a>
+                <a href="{% url 'processo_listar' %}" class="btn btn-secondary">Voltar</a>
+            </div>
+        </div>
+        <!-- Identificação -->
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">Identificação</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <strong>Processo SEI:</strong>
+                        <p>{{ processo.processo }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Número do Convênio:</strong>
+                        <p>{{ processo.numero_convenio|default:"Não informado" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Informações gerais -->
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">Informações Gerais</div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <strong>Ementa:</strong>
+                    <p>{{ processo.ementa|default:"Não informado" }}</p>
+                </div>
+                <div class="mb-3">
+                    <strong>Partícipes:</strong>
+                    <p>{{ processo.participes_texto|default:"Não informado" }}</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong>Tipo de instrumento:</strong>
+                        <p>{{ processo.tipo_instrumento }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Esfera Administrativa:</strong>
+                        <p>{{ processo.esfera_administrativa }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Abrangência:</strong>
+                        <p>{{ processo.abrangencia }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Domínios -->
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">Classificação</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong>Unidade Interessada:</strong>
+                        <ul>
+                            {% for unidade in processo.unidade_interessada.all %}
+                                <li>{{ unidade }}</li>
+                            {% empty %}
+                                <li>Não informado</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Modalidade:</strong>
+                        <ul>
+                            {% for modalidade in processo.modalidade.all %}
+                                <li>{{ modalidade }}</li>
+                            {% empty %}
+                                <li>Não informado</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Natureza:</strong>
+                        <ul>
+                            {% for natureza in processo.natureza.all %}
+                                <li>{{ natureza }}</li>
+                            {% empty %}
+                                <li>Não informado</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Pessoas -->
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">Responsáveis</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Coordenador(a):</strong>
+                        <p>{{ processo.coordenador|default:"Não informado" }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Supervisor Acadêmico:</strong>
+                        <p>{{ processo.supervisor_academico|default:"Não informado" }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Relator(a):</strong>
+                        <p>{{ processo.relator|default:"Não informado" }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Substituto(a):</strong>
+                        <p>{{ processo.substituto|default:"Não informado" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Valores -->
+        <div class="card mb-3">
+            <div class="card-header bg-success text-white">Valores</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong>Valor Total:</strong>
+                        <p>R$ {{ processo.valor_total|floatformat:2 }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Valor Inicial:</strong>
+                        <p>R$ {{ processo.valor_inicial|floatformat:2 }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Custos Indiretos:</strong>
+                        <p>R$ {{ processo.custos_indiretos|floatformat:2 }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Datas -->
+        <div class="card mb-3">
+            <div class="card-header bg-primary text-white">Datas</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <strong>Assinatura:</strong>
+                        <p>{{ processo.dt_assinatura|date:"d/m/Y" }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Início:</strong>
+                        <p>{{ processo.dt_inicio|date:"d/m/Y" }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <strong>Término:</strong>
+                        <p>{{ processo.dt_termino|date:"d/m/Y" }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Indicadores -->
+        <div class="card mb-3">
+            <div class="card-header bg-secondary text-white">Indicadores</div>
+            <div class="card-body">
+                <p>
+                    <strong>PSTE:</strong>
+                    {% if processo.pste %}
+                        Sim
+                    {% else %}
+                        Não
+                    {% endif %}
+                </p>
+                <p>
+                    <strong>Coordenado por mulher:</strong>
+                    {% if processo.coordenado_por_mulheres %}
+                        Sim
+                    {% else %}
+                        Não
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
