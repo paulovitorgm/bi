@@ -7,7 +7,7 @@ from django.views.generic import (
 )
 
 from apps.processos.forms import EntidadeParceiraForm
-from apps.processos.models import EntidadeParceira
+from apps.processos.models.entidadeparceira import EntidadeParceira
 
 
 class EntidadeParceiraListView(ListView):

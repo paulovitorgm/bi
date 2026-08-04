@@ -7,7 +7,7 @@ from django.views.generic import (
 )
 
 from apps.processos.forms import ModalidadeForm
-from apps.processos.models import Modalidade
+from apps.processos.models.modalidade import Modalidade
 
 
 class ModalidadeListView(ListView):

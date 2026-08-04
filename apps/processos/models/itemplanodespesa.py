@@ -1,6 +1,7 @@
 from django.db import models
-from processos.models.processoprojeto import ProcessoProjeto
-from processos.models.tipodespesa import TipoDespesa
+
+from apps.processos.models.processoprojeto import ProcessoProjeto
+from apps.processos.models.tipodespesa import TipoDespesa
 
 
 class ItemPlanoDespesa(models.Model):

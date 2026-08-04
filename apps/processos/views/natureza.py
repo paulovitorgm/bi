@@ -7,7 +7,7 @@ from django.views.generic import (
 )
 
 from apps.processos.forms import NaturezaForm
-from apps.processos.models import Natureza
+from apps.processos.models.natureza import Natureza
 
 
 class NaturezaListView(ListView):

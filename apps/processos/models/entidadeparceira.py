@@ -1,5 +1,6 @@
 from django.db import models
-from processos.models.choices import PublicoPrivado
+
+from apps.processos.models.choices import PublicoPrivado
 
 
 class EntidadeParceira(models.Model):

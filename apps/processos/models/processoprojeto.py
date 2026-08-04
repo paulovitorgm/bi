@@ -2,19 +2,20 @@ from decimal import Decimal
 
 from django.core.validators import RegexValidator
 from django.db import models
-from pessoas.models import PessoaModel, SexoChoices
-from processos.models.abrangencia import Abrangencia
-from processos.models.choices import (
+
+from apps.pessoas.models import PessoaModel, SexoChoices
+from apps.processos.models.abrangencia import Abrangencia
+from apps.processos.models.choices import (
     EsferaAdministrativaChoices,
     OdsOnuChoices,
     TipoInstrumentoChoices,
 )
-from processos.models.entidadeparceira import EntidadeParceira
-from processos.models.modalidade import Modalidade
-from processos.models.natureza import Natureza
-from processos.models.participesmodel import ParticipesModel
-from processos.models.termosadtivos import TermosAdtivos
-from processos.models.unidade import Unidade
+from apps.processos.models.entidadeparceira import EntidadeParceira
+from apps.processos.models.modalidade import Modalidade
+from apps.processos.models.natureza import Natureza
+from apps.processos.models.participesmodel import ParticipesModel
+from apps.processos.models.termosadtivos import TermosAdtivos
+from apps.processos.models.unidade import Unidade
 
 
 class ProcessoProjeto(models.Model):
