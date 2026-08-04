@@ -1,0 +1,31 @@
+{% extends 'partials/_base.html' %}
+{% block title %}
+    {% block error_code %}{% endblock %}
+{% endblock %}
+{% block content %}
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow">
+                    <div class="card-body text-center p-5">
+                        <h1 class="display-1 fw-bold text-primary">
+                            {% block code %}{% endblock %}
+                        </h1>
+                        <h2>
+                            {% block titulo %}{% endblock %}
+                        </h2>
+                        <p class="text-muted mt-3">
+                            {% block mensagem %}{% endblock %}
+                        </p>
+                        <hr>
+                        <a href="{% url 'home' %}" class="btn btn-primary">
+                            <i class="bi bi-house"></i>
+                            Página inicial
+                        </a>
+                        <button onclick="history.back()" class="btn btn-outline-secondary">Voltar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
