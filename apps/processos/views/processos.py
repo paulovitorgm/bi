@@ -7,6 +7,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+from apps.base.mixins import AuditoriaUsuarioMixin
 from apps.processos.forms.itemplanodespesaform import ItemPlanoDespesaForm
 from apps.processos.forms.pessoaform import PessoaForm
 from apps.processos.forms.processoprojetoform import ProcessoProjetoForm
@@ -53,14 +54,14 @@ class ProcessoListView(ListView):
         return context
 
 
-class ProcessoCreateView(CreateView):
+class ProcessoCreateView(AuditoriaUsuarioMixin, CreateView):
     model = ProcessoProjeto
     form_class = ProcessoProjetoForm
     template_name = 'processos/processos/form.html'
     success_url = reverse_lazy('processo_listar')
 
 
-class ProcessoUpdateView(UpdateView):
+class ProcessoUpdateView(AuditoriaUsuarioMixin, UpdateView):
     model = ProcessoProjeto
     form_class = ProcessoProjetoForm
     template_name = 'processos/processos/form.html'
@@ -92,7 +93,7 @@ class ProcessoDetailView(DetailView):
 # ==========================================
 
 
-class ItemPlanoDespesaCreateView(CreateView):
+class ItemPlanoDespesaCreateView(AuditoriaUsuarioMixin, CreateView):
     model = ItemPlanoDespesa
     form_class = ItemPlanoDespesaForm  # Usando o Form do Bootstrap
     template_name = 'projetos/item_despesa_form.html'
@@ -105,7 +106,7 @@ class ItemPlanoDespesaCreateView(CreateView):
         return reverse('processo_detail', kwargs={'pk': self.kwargs['processo_pk']})
 
 
-class ItemPlanoDespesaUpdateView(UpdateView):
+class ItemPlanoDespesaUpdateView(AuditoriaUsuarioMixin, UpdateView):
     model = ItemPlanoDespesa
     form_class = ItemPlanoDespesaForm  # Usando o Form do Bootstrap
     template_name = 'projetos/item_despesa_form.html'

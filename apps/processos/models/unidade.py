@@ -1,7 +1,9 @@
 from django.db import models
 
+from apps.base.models import ModeloAuditavel
 
-class Unidade(models.Model):
+
+class Unidade(ModeloAuditavel):
     """Ex: UnB, FUP, FS, DAIA, FT"""
 
     sigla = models.CharField(max_length=20, unique=True, db_index=True)

@@ -1,7 +1,9 @@
 from django.db import models
 
+from apps.base.models import ModeloAuditavel
 
-class Natureza(models.Model):
+
+class Natureza(ModeloAuditavel):
     nome = models.CharField(max_length=100, unique=True)
 
     class Meta:

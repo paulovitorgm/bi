@@ -1,10 +1,11 @@
 from django.db import models
 
+from apps.base.models import ModeloAuditavel
 from apps.processos.models.processoprojeto import ProcessoProjeto
 from apps.processos.models.tipodespesa import TipoDespesa
 
 
-class ItemPlanoDespesa(models.Model):
+class ItemPlanoDespesa(ModeloAuditavel):
     processo = models.ForeignKey(
         ProcessoProjeto, on_delete=models.CASCADE, related_name='despesas'
     )

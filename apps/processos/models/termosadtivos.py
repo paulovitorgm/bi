@@ -2,8 +2,10 @@ from decimal import Decimal
 
 from django.db import models
 
+from apps.base.models import ModeloAuditavel
 
-class TermosAdtivos(models.Model):
+
+class TermosAdtivos(ModeloAuditavel):
     termo = models.CharField()
     dt_termino = models.DateField(null=True, blank=True, db_index=True)
     dt_assinatura = models.DateField(null=True, blank=True)

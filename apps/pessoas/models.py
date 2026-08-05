@@ -1,12 +1,14 @@
 from django.db import models
 
+from apps.base.models import ModeloAuditavel
+
 
 class SexoChoices(models.TextChoices):
     MASC = 'M', 'Masculino'
     FEM = 'F', 'Feminino'
 
 
-class PessoaModel(models.Model):
+class PessoaModel(ModeloAuditavel):
     id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=180, blank=False, null=False)
     matricula = models.CharField(max_length=20, unique=True, blank=True, null=True)

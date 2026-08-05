@@ -1,7 +1,9 @@
 from django.db import models
 
+from apps.base.models import ModeloAuditavel
 
-class Abrangencia(models.Model):
+
+class Abrangencia(ModeloAuditavel):
     nome = models.CharField(max_length=100, unique=True)
 
     class Meta:

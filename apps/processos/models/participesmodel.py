@@ -1,7 +1,9 @@
 from django.db import models
 
+from apps.base.models import ModeloAuditavel
 
-class ParticipesModel(models.Model):
+
+class ParticipesModel(ModeloAuditavel):
     id = models.AutoField(primary_key=True)
     nome = models.CharField(max_length=255)
     sigla = models.CharField(max_length=30, unique=True, db_index=True)

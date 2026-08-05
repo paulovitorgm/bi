@@ -6,6 +6,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+from apps.base.mixins import AuditoriaUsuarioMixin
 from apps.processos.forms.entidadeparceiraform import EntidadeParceiraForm
 from apps.processos.models.entidadeparceira import EntidadeParceira
 
@@ -16,14 +17,14 @@ class EntidadeParceiraListView(ListView):
     context_object_name = 'entidades'
 
 
-class EntidadeParceiraCreateView(CreateView):
+class EntidadeParceiraCreateView(AuditoriaUsuarioMixin, CreateView):
     model = EntidadeParceira
     form_class = EntidadeParceiraForm
     template_name = 'processos/entidade_parceira/form.html'
     success_url = reverse_lazy('entidade_parceira_listar')
 
 
-class EntidadeParceiraUpdateView(UpdateView):
+class EntidadeParceiraUpdateView(AuditoriaUsuarioMixin, UpdateView):
     model = EntidadeParceira
     form_class = EntidadeParceiraForm
     template_name = 'processos/entidade_parceira/form.html'

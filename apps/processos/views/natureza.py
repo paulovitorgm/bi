@@ -6,6 +6,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+from apps.base.mixins import AuditoriaUsuarioMixin
 from apps.processos.forms.naturezaform import NaturezaForm
 from apps.processos.models.natureza import Natureza
 
@@ -16,14 +17,14 @@ class NaturezaListView(ListView):
     context_object_name = 'naturezas'
 
 
-class NaturezaCreateView(CreateView):
+class NaturezaCreateView(AuditoriaUsuarioMixin, CreateView):
     model = Natureza
     form_class = NaturezaForm
     template_name = 'processos/natureza/form.html'
     success_url = reverse_lazy('natureza_listar')
 
 
-class NaturezaUpdateView(UpdateView):
+class NaturezaUpdateView(AuditoriaUsuarioMixin, UpdateView):
     model = Natureza
     form_class = NaturezaForm
     template_name = 'processos/natureza/form.html'

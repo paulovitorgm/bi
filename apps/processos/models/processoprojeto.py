@@ -44,15 +44,12 @@ class ProcessoProjeto(models.Model):
         Unidade,
         related_name='projetos',
     )
-    # tipo_instrumento = models.CharField(
-    #     max_length=50, choices=TipoInstrumentoChoices.choices
-    # )
-    tipo_instrumento = (
-        models.ForeignKey(
-            TipoInstrumento, on_delete=models.RESTRICT, null=False, blank=False
-        ),
+    tipo_instrumento = models.ForeignKey(
+            TipoInstrumento,
+            on_delete=models.RESTRICT,
+            null=False,
+            blank=False
     )
-
     modalidade = models.ManyToManyField(Modalidade, related_name='processos')
     esfera_administrativa = models.CharField(
         max_length=30, choices=EsferaAdministrativaChoices.choices

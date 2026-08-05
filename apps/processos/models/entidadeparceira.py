@@ -1,9 +1,10 @@
 from django.db import models
 
+from apps.base.models import ModeloAuditavel
 from apps.processos.models.choices import PublicoPrivado
 
 
-class EntidadeParceira(models.Model):
+class EntidadeParceira(ModeloAuditavel):
     """Ex: Finatec, Funape, Convert Consultoria, etc."""
 
     sigla = models.CharField(max_length=20, unique=True, db_index=True)

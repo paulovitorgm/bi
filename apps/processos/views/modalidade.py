@@ -6,6 +6,7 @@ from django.views.generic import (
     UpdateView,
 )
 
+from apps.base.mixins import AuditoriaUsuarioMixin
 from apps.processos.forms.modalidadeform import ModalidadeForm
 from apps.processos.models.modalidade import Modalidade
 
@@ -16,14 +17,14 @@ class ModalidadeListView(ListView):
     context_object_name = 'modalidades'
 
 
-class ModalidadeCreateView(CreateView):
+class ModalidadeCreateView(AuditoriaUsuarioMixin, CreateView):
     model = Modalidade
     form_class = ModalidadeForm
     template_name = 'processos/modalidade/form.html'
     success_url = reverse_lazy('modalidade_listar')
 
 
-class ModalidadeUpdateView(UpdateView):
+class ModalidadeUpdateView(AuditoriaUsuarioMixin, UpdateView):
     model = Modalidade
     form_class = ModalidadeForm
     template_name = 'processos/modalidade/form.html'

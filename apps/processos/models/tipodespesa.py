@@ -1,7 +1,9 @@
 from django.db import models
 
+from apps.base.models import ModeloAuditavel
 
-class TipoDespesa(models.Model):
+
+class TipoDespesa(ModeloAuditavel):
     """Ex: Auxílio financeiro a Pesquisador, Serviços de Terceiros PJ, etc."""
 
     descricao = models.CharField(max_length=255, unique=True)

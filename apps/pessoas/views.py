@@ -9,18 +9,19 @@ from django.views.generic import (
     UpdateView,
 )
 
+from apps.base.mixins import AuditoriaUsuarioMixin
 from apps.pessoas.forms import BuscarPessoaForm, PessoaForm
 from apps.pessoas.models import PessoaModel
 
 
-class PessoaCreate(CreateView):
+class PessoaCreate(AuditoriaUsuarioMixin, CreateView):
     model = PessoaModel
     template_name = 'pessoas/cadastrar.html'
     form_class = PessoaForm
     success_url = reverse_lazy('listar-pessoas')
 
 
-class PessoaUpdate(UpdateView):
+class PessoaUpdate(AuditoriaUsuarioMixin, UpdateView):
     model = PessoaModel
     template_name = 'pessoas/form.html'
     form_class = PessoaForm
