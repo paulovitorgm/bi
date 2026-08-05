@@ -1,0 +1,17 @@
+[Unit]
+Description=Sistema Base de Dados BI (Django)
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=bi
+Group=bi
+WorkingDirectory=/opt/base-dados-bi
+Environment="PATH=/opt/base-dados-bi/.venv/bin"
+ExecStart=/opt/base-dados-bi/.venv/bin/waitress-serve --listen=127.0.0.1:8001 base_de_dados_bi.wsgi:application
+Restart=always
+RestartSec=5
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

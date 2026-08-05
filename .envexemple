@@ -1,6 +1,11 @@
-SECRET_KEY=SENHA
-DEBUG=True
-ALLOWED_HOSTS=localhost,127.0.0.1
+SECRET_KEY=gere-uma-chave-longa-e-aleatoria-para-producao
+DEBUG=False
+ALLOWED_HOSTS=servidor-bi.interno,192.168.1.50
+CSRF_TRUSTED_ORIGINS=https://servidor-bi.interno
+# Altere para True somente depois de configurar HTTPS no Nginx/IIS.
+SECURE_SSL_REDIRECT=False
+SESSION_COOKIE_SECURE=False
+CSRF_COOKIE_SECURE=False
 DB_NAME=BANCODEDADOS
 DB_USER=BANCODEDADOS
 DB_PASSWORD=BANCODEDADOS
