@@ -6,15 +6,16 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.base.mixins import AuditoriaUsuarioMixin
+from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
 from apps.processos.forms.entidadeparceiraform import EntidadeParceiraForm
 from apps.processos.models.entidadeparceira import EntidadeParceira
 
 
-class EntidadeParceiraListView(ListView):
+class EntidadeParceiraListView(PaginacaoMixin, ListView):
     model = EntidadeParceira
     template_name = 'processos/entidade_parceira/listar.html'
     context_object_name = 'entidades'
+    paginate_by = 20
 
 
 class EntidadeParceiraCreateView(AuditoriaUsuarioMixin, CreateView):

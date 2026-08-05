@@ -3,7 +3,8 @@ from decimal import Decimal
 from django.core.validators import RegexValidator
 from django.db import models
 
-from apps.pessoas.models import PessoaModel, SexoChoices
+from apps.base.models import ModeloAuditavel
+from apps.pessoas.models import PessoaModel
 from apps.processos.models.abrangencia import Abrangencia
 from apps.processos.models.choices import (
     EsferaAdministrativaChoices,
@@ -18,7 +19,7 @@ from apps.processos.models.tipoinstrumento import TipoInstrumento
 from apps.processos.models.unidade import Unidade
 
 
-class ProcessoProjeto(models.Model):
+class ProcessoProjeto(ModeloAuditavel):
     processo = models.CharField(
         max_length=20,
         unique=True,
@@ -111,12 +112,6 @@ class ProcessoProjeto(models.Model):
 
     # Metadados de Controle Interno / Tramitação
     ods_onu = models.CharField(max_length=50, choices=OdsOnuChoices.choices, blank=True)
-    termo_adtivo = models.ManyToManyField(
-        TermosAdtivos,
-        blank=False,
-        null=False,
-        related_name='termos_adtivos',
-    )
 
     class Meta:
         verbose_name = 'Processo'
@@ -131,8 +126,3 @@ class ProcessoProjeto(models.Model):
     def __str__(self):
         return f'SEI nº: {self.processo}'
 
-    def save(self, *args, **kwargs):
-        self.coordenado_por_mulheres = (
-            self.coordenador is not None and self.coordenador.sexo == SexoChoices.FEM
-        )
-        super().save(*args, **kwargs)

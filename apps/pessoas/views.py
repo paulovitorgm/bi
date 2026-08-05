@@ -9,7 +9,7 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.base.mixins import AuditoriaUsuarioMixin
+from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
 from apps.pessoas.forms import BuscarPessoaForm, PessoaForm
 from apps.pessoas.models import PessoaModel
 
@@ -39,11 +39,19 @@ class PessoaDetail(DetailView):
     slug_url_kwarg = 'matricula'
 
 
-class PessoaListView(ListView):
+class PessoaListView(PaginacaoMixin, ListView):
     model = PessoaModel
     template_name = 'pessoas/listar.html'
     context_object_name = 'pessoas'
     paginate_by = 20
+
+    def get_queryset(self):
+        queryset = PessoaModel.objects.all()
+        busca = self.request.GET.get('q', '').strip()
+        if busca:
+            from django.db.models import Q
+            queryset = queryset.filter(Q(nome__icontains=busca) | Q(matricula__icontains=busca))
+        return queryset
 
 
 class PessoaDelete(DeleteView):

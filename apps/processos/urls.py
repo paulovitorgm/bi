@@ -1,5 +1,17 @@
 from django.urls import path
 
+from apps.processos.views.cadastros import (
+    AbrangenciaCreateView, AbrangenciaDeleteView, AbrangenciaListView, AbrangenciaUpdateView,
+    ParticipeCreateView, ParticipeDeleteView, ParticipeListView, ParticipeUpdateView,
+    TipoDespesaCreateView, TipoDespesaDeleteView, TipoDespesaListView, TipoDespesaUpdateView,
+    TipoInstrumentoCreateView, TipoInstrumentoDeleteView, TipoInstrumentoListView, TipoInstrumentoUpdateView,
+)
+from apps.processos.views.modais import (
+    AbrangenciaModalCreateView, EntidadeModalCreateView, ModalidadeModalCreateView,
+    NaturezaModalCreateView, ParticipeModalCreateView, PessoaModalCreateView,
+    TipoInstrumentoModalCreateView, UnidadeModalCreateView,
+)
+
 from apps.processos.views.entidade_parceira import (
     EntidadeParceiraCreateView,
     EntidadeParceiraDeleteView,
@@ -33,6 +45,14 @@ from apps.processos.views.unidade import (
 )
 
 urlpatterns = [
+    path('modal/unidades/', UnidadeModalCreateView.as_view(), name='modal_unidade_criar'),
+    path('modal/participes/', ParticipeModalCreateView.as_view(), name='modal_participe_criar'),
+    path('modal/modalidades/', ModalidadeModalCreateView.as_view(), name='modal_modalidade_criar'),
+    path('modal/naturezas/', NaturezaModalCreateView.as_view(), name='modal_natureza_criar'),
+    path('modal/abrangencias/', AbrangenciaModalCreateView.as_view(), name='modal_abrangencia_criar'),
+    path('modal/entidades/', EntidadeModalCreateView.as_view(), name='modal_entidade_criar'),
+    path('modal/tipos-instrumento/', TipoInstrumentoModalCreateView.as_view(), name='modal_tipo_instrumento_criar'),
+    path('modal/pessoas/', PessoaModalCreateView.as_view(), name='modal_pessoa_criar'),
     # Processos
     path(
         '',
@@ -123,6 +143,22 @@ urlpatterns = [
         NaturezaDeleteView.as_view(),
         name='natureza_delete',
     ),
+    path('abrangencias/', AbrangenciaListView.as_view(), name='abrangencia_listar'),
+    path('abrangencias/nova/', AbrangenciaCreateView.as_view(), name='abrangencia_criar'),
+    path('abrangencias/<int:pk>/editar/', AbrangenciaUpdateView.as_view(), name='abrangencia_editar'),
+    path('abrangencias/<int:pk>/excluir/', AbrangenciaDeleteView.as_view(), name='abrangencia_excluir'),
+    path('participes/', ParticipeListView.as_view(), name='participe_listar'),
+    path('participes/novo/', ParticipeCreateView.as_view(), name='participe_criar'),
+    path('participes/<int:pk>/editar/', ParticipeUpdateView.as_view(), name='participe_editar'),
+    path('participes/<int:pk>/excluir/', ParticipeDeleteView.as_view(), name='participe_excluir'),
+    path('tipos-despesa/', TipoDespesaListView.as_view(), name='tipo_despesa_listar'),
+    path('tipos-despesa/novo/', TipoDespesaCreateView.as_view(), name='tipo_despesa_criar'),
+    path('tipos-despesa/<int:pk>/editar/', TipoDespesaUpdateView.as_view(), name='tipo_despesa_editar'),
+    path('tipos-despesa/<int:pk>/excluir/', TipoDespesaDeleteView.as_view(), name='tipo_despesa_excluir'),
+    path('tipos-instrumento/', TipoInstrumentoListView.as_view(), name='tipo_instrumento_listar'),
+    path('tipos-instrumento/novo/', TipoInstrumentoCreateView.as_view(), name='tipo_instrumento_criar'),
+    path('tipos-instrumento/<int:pk>/editar/', TipoInstrumentoUpdateView.as_view(), name='tipo_instrumento_editar'),
+    path('tipos-instrumento/<int:pk>/excluir/', TipoInstrumentoDeleteView.as_view(), name='tipo_instrumento_excluir'),
 ]
 # para depois:
 

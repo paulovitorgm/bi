@@ -6,15 +6,16 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.base.mixins import AuditoriaUsuarioMixin
+from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
 from apps.processos.forms.modalidadeform import ModalidadeForm
 from apps.processos.models.modalidade import Modalidade
 
 
-class ModalidadeListView(ListView):
+class ModalidadeListView(PaginacaoMixin, ListView):
     model = Modalidade
     template_name = 'processos/modalidade/listar.html'
     context_object_name = 'modalidades'
+    paginate_by = 20
 
 
 class ModalidadeCreateView(AuditoriaUsuarioMixin, CreateView):

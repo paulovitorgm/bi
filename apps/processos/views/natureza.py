@@ -6,15 +6,16 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.base.mixins import AuditoriaUsuarioMixin
+from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
 from apps.processos.forms.naturezaform import NaturezaForm
 from apps.processos.models.natureza import Natureza
 
 
-class NaturezaListView(ListView):
+class NaturezaListView(PaginacaoMixin, ListView):
     model = Natureza
     template_name = 'processos/natureza/listar.html'
     context_object_name = 'naturezas'
+    paginate_by = 20
 
 
 class NaturezaCreateView(AuditoriaUsuarioMixin, CreateView):

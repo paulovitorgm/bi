@@ -1,89 +1,9 @@
 {% extends "partials/_base.html" %}
 {% block content %}
-    <div class="container mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2>Processos</h2>
-            <a href="{% url 'processo_criar' %}" class="btn btn-success">Novo Processo</a>
-        </div>
-        <div class="d-flex justify-content-between mb-3"></div>
-        <nav class="pagination-container">
-            {% if is_paginated %}
-                <ul class="pagination">
-                    {% if page_obj.has_previous %}
-                        <li>
-                            <a href="?page=1">&laquo;</a>
-                        </li>
-                        <li>
-                            <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
-                        </li>
-                    {% endif %}
-                    {% for page in paginator.page_range %}
-                        {% if page == page_obj.number %}
-                            <li class="active">{{ page }}</li>
-                        {% elif page >= page_obj.number|add:"-2" and page <= page_obj.number|add:"2" %}
-                            <li>
-                                <a href="?page={{ page }}&{{ querystring }}">{{ page }}</a>
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                    {% if page_obj.has_next %}
-                        <li>
-                            <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
-                        </li>
-                        <li>
-                            <a href="?page={{ paginator.num_pages }}">&raquo;</a>
-                        </li>
-                    {% endif %}
-                </ul>
-            {% endif %}
-        </nav>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Processo</th>
-                        <th>Convênio</th>
-                        <th>Coordenador</th>
-                        <th>Entidade</th>
-                        <th>Início</th>
-                        <th>Término</th>
-                        <th width="180">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for processo in processos %}
-                        <tr>
-                            <td>{{ processo.processo }}</td>
-                            <td>{{ processo.numero_convenio|default:"-" }}</td>
-                            <td>{{ processo.coordenador|default:"-" }}</td>
-                            <td>{{ processo.entidade_parceira|default:"-" }}</td>
-                            <td>{{ processo.dt_inicio|date:"d/m/Y"|default:"-" }}</td>
-                            <td>{{ processo.dt_termino|date:"d/m/Y"|default:"-" }}</td>
-                            <td>
-                                <a href="{% url 'processo_detalhar' processo.processo %}"
-                                   class="btn btn-info btn-sm">Visualizar</a>
-                                <a href="{% url 'processo_editar' processo.processo %}"
-                                   class="btn btn-warning btn-sm">Editar</a>
-                                <a href="{% url 'processo_deletar' processo.processo %}"
-                                   class="btn btn-danger btn-sm">Excluir</a>
-                            </td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="7" class="text-center">Nenhum processo encontrado.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <span>
-                Mostrando
-                {{ page_obj.start_index }}
-                -
-                {{ page_obj.end_index }}
-                de
-                {{ paginator.count }}
-                processos
-            </span>
-        </div>
+    <div class="container py-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4"><div><h1 class="h3 mb-1">Processos</h1><p class="text-body-secondary mb-0">Consulte, filtre e mantenha os processos cadastrados.</p></div><a href="{% url 'processo_criar' %}" class="btn btn-primary">Novo processo</a></div>
+        <form class="card card-body shadow-sm mb-3" method="get"><div class="row g-2 align-items-end"><div class="col-md-8"><label for="q" class="form-label">Buscar</label><input id="q" name="q" class="form-control" value="{{ request.GET.q }}" placeholder="Processo SEI, convênio, nome ou coordenador"></div><div class="col-md-2"><label for="per_page" class="form-label">Por página</label><select id="per_page" name="per_page" class="form-select">{% for size in page_sizes %}<option value="{{ size }}" {% if size == selected_per_page %}selected{% endif %}>{{ size }}</option>{% endfor %}</select></div><div class="col-md-2 d-grid"><button class="btn btn-outline-primary">Filtrar</button></div></div></form>
+        <div class="table-responsive bg-white border rounded-3"><table class="table table-hover align-middle mb-0"><thead class="table-light"><tr><th>Processo</th><th>Convênio</th><th>Nome</th><th>Coordenador</th><th>Entidade</th><th>Início</th><th>Término</th><th class="text-end">Ações</th></tr></thead><tbody>{% for processo in processos %}<tr><td>{{ processo.processo }}</td><td>{{ processo.numero_convenio|default:"-" }}</td><td>{{ processo.nome_do_processo }}</td><td>{{ processo.coordenador|default:"-" }}</td><td>{{ processo.entidade_parceira|default:"-" }}</td><td>{{ processo.dt_inicio|date:"d/m/Y"|default:"-" }}</td><td>{{ processo.dt_termino|date:"d/m/Y"|default:"-" }}</td><td class="text-end"><a href="{% url 'processo_detalhar' processo.processo %}" class="btn btn-sm btn-outline-primary">Ver</a> <a href="{% url 'processo_editar' processo.processo %}" class="btn btn-sm btn-outline-secondary">Editar</a> <a href="{% url 'processo_deletar' processo.processo %}" class="btn btn-sm btn-outline-danger">Excluir</a></td></tr>{% empty %}<tr><td colspan="8" class="text-center py-4 text-body-secondary">Nenhum processo encontrado.</td></tr>{% endfor %}</tbody></table></div>
+        {% include "partials/_paginacao.html" %}
     </div>
 {% endblock %}

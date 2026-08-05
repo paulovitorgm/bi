@@ -1,15 +1,16 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from apps.base.mixins import AuditoriaUsuarioMixin
+from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
 from apps.processos.forms.unidadeform import UnidadeForm
 from apps.processos.models.unidade import Unidade
 
 
-class UnidadeListView(ListView):
+class UnidadeListView(PaginacaoMixin, ListView):
     model = Unidade
     template_name = 'processos/unidade/listar.html'
     context_object_name = 'unidades'
+    paginate_by = 20
 
 
 class UnidadeCreateView(AuditoriaUsuarioMixin, CreateView):

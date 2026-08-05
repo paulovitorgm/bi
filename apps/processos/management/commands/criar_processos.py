@@ -19,7 +19,8 @@ from apps.processos.models import (
     ParticipesModel,
     ProcessoProjeto,
     PublicoPrivado,
-    TipoDespesa,
+        TipoDespesa,
+        TipoInstrumento,
     TipoInstrumentoChoices,
     Unidade,
 )
@@ -160,6 +161,9 @@ class Command(BaseCommand):
         for descricao in tipos_despesa:
             TipoDespesa.objects.get_or_create(descricao=descricao)
 
+        for nome in TipoInstrumentoChoices.values:
+            TipoInstrumento.objects.get_or_create(nome=nome)
+
     # --------------------------------------------------------
 
     def criar_pessoas(self, quantidade):  # ruff: ignore[no-self-use]
@@ -212,6 +216,7 @@ class Command(BaseCommand):
         participes = list(ParticipesModel.objects.all())
 
         tipos_despesa = list(TipoDespesa.objects.all())
+        tipos_instrumento = list(TipoInstrumento.objects.all())
 
         processos = []
 
@@ -229,7 +234,7 @@ class Command(BaseCommand):
                     numero_convenio=f'CV-{indice_unico}',
                     nome_do_processo=fake.catch_phrase(),
                     ementa=fake.paragraph(nb_sentences=4),
-                    tipo_instrumento=random.choice(TipoInstrumentoChoices.values),
+                    tipo_instrumento=random.choice(tipos_instrumento),
                     esfera_administrativa=random.choice(
                         EsferaAdministrativaChoices.values
                     ),
@@ -240,19 +245,11 @@ class Command(BaseCommand):
                     relator=random.choice(pessoas),
                     substituto=random.choice(pessoas),
                     valor_total=Decimal(random.randint(100000, 10000000)),
-                    valor_inicial=Decimal(random.randint(100000, 5000000)),
                     custos_indiretos=Decimal(random.randint(1000, 500000)),
                     dt_inicio=inicio,
                     dt_termino=termino,
                     dt_assinatura=inicio,
-                    forma_aprovacao=random.choice([
-                        'CAD',
-                        'CEPE',
-                        'CONSUNI',
-                        'Diretoria',
-                    ]),
                     ods_onu=random.choice(OdsOnuChoices.values),
-                    pste=random.choice([True, False]),
                 )
             )
 

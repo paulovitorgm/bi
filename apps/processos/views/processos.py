@@ -7,10 +7,10 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.base.mixins import AuditoriaUsuarioMixin
+from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
 from apps.processos.forms.itemplanodespesaform import ItemPlanoDespesaForm
 from apps.processos.forms.pessoaform import PessoaForm
-from apps.processos.forms.processoprojetoform import ProcessoProjetoForm
+from apps.processos.forms.processoprojetoform import ProcessoProjetoForm, TermoAditivoFormSet
 from apps.processos.forms.tipodespesaform import TipoDespesaForm
 
 from apps.processos.models.itemplanodespesa import ItemPlanoDespesa
@@ -19,18 +19,15 @@ from apps.processos.models.tipodespesa import TipoDespesa
 from apps.pessoas.models import PessoaModel
 
 
-class ProcessoListView(ListView):
+class ProcessoListView(PaginacaoMixin, ListView):
     model = ProcessoProjeto
     template_name = 'processos/processos/listar.html'
     context_object_name = 'processos'
     paginate_by = 20
     ordering = ['-id']
 
-    def get_paginate_by(self, queryset):
-        return self.request.GET.get('per_page', 20)
-
     def get_queryset(self):  # ruff: ignore[no-self-use]
-        return (
+        queryset = (
             ProcessoProjeto.objects
             .select_related(
                 'coordenador',
@@ -45,23 +42,46 @@ class ProcessoListView(ListView):
             )
             .order_by('-dt_assinatura')
         )
+        busca = self.request.GET.get('q', '').strip()
+        if busca:
+            from django.db.models import Q
+            queryset = queryset.filter(
+                Q(processo__icontains=busca)
+                | Q(numero_convenio__icontains=busca)
+                | Q(nome_do_processo__icontains=busca)
+                | Q(coordenador__nome__icontains=busca)
+            )
+        return queryset
 
+
+class TermoAditivoFormsetMixin:
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        querydict = self.request.GET.copy()
-        querydict.pop('page', None)
-        context['querystring'] = querydict.urlencode()
+        context['termo_formset'] = TermoAditivoFormSet(
+            self.request.POST or None,
+            instance=self.object,
+        )
         return context
 
+    def form_valid(self, form):
+        context = self.get_context_data()
+        termo_formset = context['termo_formset']
+        if not termo_formset.is_valid():
+            return self.render_to_response(context)
+        response = super().form_valid(form)
+        termo_formset.instance = self.object
+        termo_formset.save()
+        return response
 
-class ProcessoCreateView(AuditoriaUsuarioMixin, CreateView):
+
+class ProcessoCreateView(AuditoriaUsuarioMixin, TermoAditivoFormsetMixin, CreateView):
     model = ProcessoProjeto
     form_class = ProcessoProjetoForm
     template_name = 'processos/processos/form.html'
     success_url = reverse_lazy('processo_listar')
 
 
-class ProcessoUpdateView(AuditoriaUsuarioMixin, UpdateView):
+class ProcessoUpdateView(AuditoriaUsuarioMixin, TermoAditivoFormsetMixin, UpdateView):
     model = ProcessoProjeto
     form_class = ProcessoProjetoForm
     template_name = 'processos/processos/form.html'
