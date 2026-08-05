@@ -6,7 +6,7 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.processos.forms import ModalidadeForm
+from apps.processos.forms.modalidadeform import ModalidadeForm
 from apps.processos.models.modalidade import Modalidade
 
 

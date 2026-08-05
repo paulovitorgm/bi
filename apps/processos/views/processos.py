@@ -7,16 +7,15 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.pessoas.models import PessoaModel
-from apps.processos.forms import (
-    ItemPlanoDespesaForm,
-    PessoaForm,
-    ProcessoProjetoForm,
-    TipoDespesaForm,
-)
+from apps.processos.forms.itemplanodespesaform import ItemPlanoDespesaForm
+from apps.processos.forms.pessoaform import PessoaForm
+from apps.processos.forms.processoprojetoform import ProcessoProjetoForm
+from apps.processos.forms.tipodespesaform import TipoDespesaForm
+
 from apps.processos.models.itemplanodespesa import ItemPlanoDespesa
 from apps.processos.models.processoprojeto import ProcessoProjeto
 from apps.processos.models.tipodespesa import TipoDespesa
+from apps.pessoas.models import PessoaModel
 
 
 class ProcessoListView(ListView):

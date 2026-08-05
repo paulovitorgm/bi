@@ -6,7 +6,7 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.processos.forms import NaturezaForm
+from apps.processos.forms.naturezaform import NaturezaForm
 from apps.processos.models.natureza import Natureza
 
 

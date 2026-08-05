@@ -6,7 +6,7 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.processos.forms import EntidadeParceiraForm
+from apps.processos.forms.entidadeparceiraform import EntidadeParceiraForm
 from apps.processos.models.entidadeparceira import EntidadeParceira
 
 

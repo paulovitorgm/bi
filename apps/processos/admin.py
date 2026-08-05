@@ -10,34 +10,33 @@ from apps.processos.models.tipodespesa import TipoDespesa
 from apps.processos.models.unidade import Unidade
 
 # list_display = (
-#     'processo',
-#     'numero_convenio',
-#     'nome_do_processo',
-#     'ementa',
-#     'participes',
-#     'unidade_interessada',
-#     'tipo_instrumento',
-#     'modalidade',
-#     'esfera_administrativa',
-#     'natureza',
-#     'abrangencia',
-#     'entidade_parceira',
-#     'coordenador',
-#     'supervisor_academico',
-#     'relator',
-#     'substituto',
-#     'valor_total',
-#     'valor_inicial',
-#     'custos_indiretos',
-#     'dt_inicio',
-#     'dt_termino',
-#     'dt_assinatura',
-#     'ods_onu',
-# )
-
-
+    #     'processo',
+    #     'numero_convenio',
+    #     'nome_do_processo',
+    #     'ementa',
+    #     'participes',
+    #     'unidade_interessada',
+    #     'tipo_instrumento',
+    #     'modalidade',
+    #     'esfera_administrativa',
+    #     'natureza',
+    #     'abrangencia',
+    #     'entidade_parceira',
+    #     'coordenador',
+    #     'supervisor_academico',
+    #     'relator',
+    #     'substituto',
+    #     'valor_total',
+    #     'valor_inicial',
+    #     'custos_indiretos',
+    #     'dt_inicio',
+    #     'dt_termino',
+    #     'dt_assinatura',
+    #     'ods_onu',
+    # )
 @admin.register(ProcessoProjeto)
 class ProcessoProjetoAdmin(admin.ModelAdmin):
+
     search_fields = (
         'processo',
         'nome_do_processo',
@@ -45,7 +44,7 @@ class ProcessoProjetoAdmin(admin.ModelAdmin):
         'entidade_parceira__nome',
     )
     list_filter = (
-        'tipo_instrumento',
+        # 'tipo_instrumento',
         'esfera_administrativa',
         'dt_inicio',
         'dt_termino',
