@@ -16,6 +16,7 @@ from apps.processos.models.natureza import Natureza
 from apps.processos.models.participesmodel import ParticipesModel
 from apps.processos.models.termosadtivos import TermosAdtivos
 from apps.processos.models.unidade import Unidade
+from apps.processos.models.tipoinstrumento import TipoInstrumento
 
 
 class ProcessoProjeto(models.Model):
@@ -47,6 +48,11 @@ class ProcessoProjeto(models.Model):
     tipo_instrumento = models.CharField(
         max_length=50, choices=TipoInstrumentoChoices.choices
     )
+
+    # tipo_instrumento = models.ForeignKey(TipoInstrumento
+    #     , on_delete=models.RESTRICT, null=False, blank=False
+    # ),
+    #
     modalidade = models.ManyToManyField(Modalidade, related_name='processos')
     esfera_administrativa = models.CharField(
         max_length=30, choices=EsferaAdministrativaChoices.choices
