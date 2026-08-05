@@ -1,7 +1,7 @@
 # Operação em produção (sem contêiner)
 
 Para uma implantação definitiva, execute o Django com um servidor WSGI, como
-o **Waitress**, na porta local `8001`. Mantenha essa porta inacessível pela
+o **Waitress**, na porta local `80`. Mantenha essa porta inacessível pela
 rede; exponha somente o proxy web (Nginx ou IIS) em `80/443`.
 
 ## Configuração inicial
