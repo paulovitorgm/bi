@@ -2,7 +2,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 from apps.processos.forms import UnidadeForm
-from apps.processos.models import Unidade
+from apps.processos.models.unidade import Unidade
 
 
 class UnidadeListView(ListView):

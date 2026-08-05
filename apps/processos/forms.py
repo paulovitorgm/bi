@@ -1,15 +1,13 @@
 from django import forms
 
-from apps.processos.models import (
-    EntidadeParceira,
-    ItemPlanoDespesa,
-    Modalidade,
-    Natureza,
-    PessoaModel,
-    ProcessoProjeto,
-    TipoDespesa,
-    Unidade,
-)
+from apps.pessoas.models import PessoaModel
+from apps.processos.models.entidadeparceira import EntidadeParceira
+from apps.processos.models.itemplanodespesa import ItemPlanoDespesa
+from apps.processos.models.modalidade import Modalidade
+from apps.processos.models.natureza import Natureza
+from apps.processos.models.processoprojeto import ProcessoProjeto
+from apps.processos.models.tipodespesa import TipoDespesa
+from apps.processos.models.unidade import Unidade
 
 
 class ProcessoProjetoForm(forms.ModelForm):
@@ -39,9 +37,7 @@ class ProcessoProjetoForm(forms.ModelForm):
             'dt_inicio': 'Data de Início',
             'dt_termino': 'Data de Término',
             'dt_assinatura': 'Data da Assinatura',
-            'forma_aprovacao': 'Forma de aprovação',
             'ods_onu': 'ODS da ONU',
-            'pste': 'PSTE',
         }
         widgets = {
             'processo': forms.TextInput(
@@ -75,9 +71,6 @@ class ProcessoProjetoForm(forms.ModelForm):
                     'placeholder': 'Descrição dos partícipes',
                     'style': 'height: 100px',
                 }
-            ),
-            'forma_aprovacao': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': ''}
             ),
             # Selects (Dropdowns)
             'tipo_instrumento': forms.Select(
@@ -154,7 +147,6 @@ class ProcessoProjetoForm(forms.ModelForm):
                 }
             ),
             # Checkboxes (Switches do Bootstrap)
-            'pste': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
         }
 
         def clean(self):
