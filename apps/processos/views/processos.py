@@ -46,9 +46,10 @@ class ProcessoListView(PaginacaoMixin, ListView):
                 + SearchVector('coordenador__nome', weight='C', config=config)
             )
             query = SearchQuery(busca, config=config, search_type='websearch')
-            queryset = queryset.annotate(
-                rank=SearchRank(vector, query)
-                .filter(rank__gte=0.1)
+            queryset = (
+                queryset
+                .annotate(rank=SearchRank(vector, query))
+                .filter(rank__gte=0.01)
                 .order_by('-rank', '-dt_assinatura')
             )
         else:

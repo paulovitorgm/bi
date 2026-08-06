@@ -35,14 +35,13 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     # whitenoise -- permite que sua aplicação Django sirva arquivos estáticos (CSS, JS, imagens) diretamente em produção
     "whitenoise.middleware.WhiteNoiseMiddleware",
-
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'base_de_dados_bi.middleware.LoginRequiredMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
 
 ROOT_URLCONF = 'base_de_dados_bi.urls'
@@ -115,11 +114,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 STATIC_URL = "/static/"
-
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
-
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STORAGES = {
@@ -165,12 +164,16 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.ScryptPasswordHasher",
 ]
 
-# #
-# # LOGIN_REDIRECT_URL = 'autenticacao:detalhar'
-# # LOGIN_URL = 'autenticacao:login'
-# # LOGOUT_REDIRECT_URL = 'autenticacao:login'
-#
-# # duração da sessão 6h
-# SESSION_COOKIE_AGE = 21600
-# # expira a sessão quando fecha o navegador
-# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'index'
+PUBLIC_URLS = (
+    '/',
+    '/login/',
+    '/logout/',
+    '/admin/login/',
+)
+# duração da sessão 6h
+SESSION_COOKIE_AGE = 21600
+# expira a sessão quando fecha o navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
