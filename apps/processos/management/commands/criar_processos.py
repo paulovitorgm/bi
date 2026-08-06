@@ -19,8 +19,8 @@ from apps.processos.models import (
     ParticipesModel,
     ProcessoProjeto,
     PublicoPrivado,
-        TipoDespesa,
-        TipoInstrumento,
+    TipoDespesa,
+    TipoInstrumento,
     TipoInstrumentoChoices,
     Unidade,
 )

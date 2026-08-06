@@ -1,3 +1,4 @@
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -8,15 +9,17 @@ from django.views.generic import (
 )
 
 from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
+from apps.pessoas.models import PessoaModel
 from apps.processos.forms.itemplanodespesaform import ItemPlanoDespesaForm
 from apps.processos.forms.pessoaform import PessoaForm
-from apps.processos.forms.processoprojetoform import ProcessoProjetoForm, TermoAditivoFormSet
+from apps.processos.forms.processoprojetoform import (
+    ProcessoProjetoForm,
+    TermoAditivoFormSet,
+)
 from apps.processos.forms.tipodespesaform import TipoDespesaForm
-
 from apps.processos.models.itemplanodespesa import ItemPlanoDespesa
 from apps.processos.models.processoprojeto import ProcessoProjeto
 from apps.processos.models.tipodespesa import TipoDespesa
-from apps.pessoas.models import PessoaModel
 
 
 class ProcessoListView(PaginacaoMixin, ListView):
@@ -26,31 +29,30 @@ class ProcessoListView(PaginacaoMixin, ListView):
     paginate_by = 20
     ordering = ['-id']
 
-    def get_queryset(self):  # ruff: ignore[no-self-use]
-        queryset = (
-            ProcessoProjeto.objects
-            .select_related(
-                'coordenador',
-                'entidade_parceira',
-                'relator',
-                'substituto',
-            )
-            .prefetch_related(
-                'modalidade',
-                'natureza',
-                'unidade_interessada',
-            )
-            .order_by('-dt_assinatura')
-        )
+    def get_queryset(self):
+        queryset = ProcessoProjeto.objects.select_related(
+            'coordenador',
+            'entidade_parceira',
+            'relator',
+            'substituto',
+        ).prefetch_related('modalidade', 'natureza', 'unidade_interessada')
         busca = self.request.GET.get('q', '').strip()
         if busca:
-            from django.db.models import Q
-            queryset = queryset.filter(
-                Q(processo__icontains=busca)
-                | Q(numero_convenio__icontains=busca)
-                | Q(nome_do_processo__icontains=busca)
-                | Q(coordenador__nome__icontains=busca)
+            config = 'portuguese'
+            vector = (
+                SearchVector('processo', weight='A', config=config)
+                + SearchVector('numero_convenio', weight='A', config=config)
+                + SearchVector('nome_do_processo', weight='B', config=config)
+                + SearchVector('coordenador__nome', weight='C', config=config)
             )
+            query = SearchQuery(busca, config=config, search_type='websearch')
+            queryset = queryset.annotate(
+                rank=SearchRank(vector, query)
+                .filter(rank__gte=0.1)
+                .order_by('-rank', '-dt_assinatura')
+            )
+        else:
+            queryset = queryset.order_by('-dt_assinatura')
         return queryset
 
 

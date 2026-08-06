@@ -1,6 +1,8 @@
 from django.http import JsonResponse
 from django.views.generic import CreateView
 
+from apps.pessoas.forms import PessoaForm
+from apps.pessoas.models import PessoaModel
 from apps.processos.forms.cadastrosform import (
     AbrangenciaForm,
     ParticipeForm,
@@ -17,15 +19,13 @@ from apps.processos.models.natureza import Natureza
 from apps.processos.models.participesmodel import ParticipesModel
 from apps.processos.models.tipoinstrumento import TipoInstrumento
 from apps.processos.models.unidade import Unidade
-from apps.pessoas.forms import PessoaForm
-from apps.pessoas.models import PessoaModel
 
 
 class ModalCadastroCreateView(CreateView):
     template_name = 'processos/modais/form.html'
     titulo = 'Novo cadastro'
 
-    def form_valid(self, form):
+    def form_valid(self, form):  # ruff: ignore[no-self-use]
         objeto = form.save()
         return JsonResponse({'id': objeto.pk, 'text': str(objeto)})
 
@@ -56,11 +56,19 @@ class AbrangenciaModalCreateView(ModalCadastroCreateView):
 
 
 class EntidadeModalCreateView(ModalCadastroCreateView):
-    model, form_class, titulo = EntidadeParceira, EntidadeParceiraForm, 'Nova entidade parceira'
+    model, form_class, titulo = (
+        EntidadeParceira,
+        EntidadeParceiraForm,
+        'Nova entidade parceira',
+    )
 
 
 class TipoInstrumentoModalCreateView(ModalCadastroCreateView):
-    model, form_class, titulo = TipoInstrumento, TipoInstrumentoForm, 'Novo tipo de instrumento'
+    model, form_class, titulo = (
+        TipoInstrumento,
+        TipoInstrumentoForm,
+        'Novo tipo de instrumento',
+    )
 
 
 class PessoaModalCreateView(ModalCadastroCreateView):

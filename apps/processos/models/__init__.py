@@ -16,8 +16,18 @@ from apps.processos.models.tipoinstrumento import TipoInstrumento
 from apps.processos.models.unidade import Unidade
 
 __all__ = [
-    'Abrangencia', 'EntidadeParceira', 'EsferaAdministrativaChoices',
-    'ItemPlanoDespesa', 'Modalidade', 'Natureza', 'OdsOnuChoices',
-    'ParticipesModel', 'ProcessoProjeto', 'PublicoPrivado', 'TipoDespesa',
-    'TipoInstrumento', 'TipoInstrumentoChoices', 'Unidade',
+    'Abrangencia',
+    'EntidadeParceira',
+    'EsferaAdministrativaChoices',
+    'ItemPlanoDespesa',
+    'Modalidade',
+    'Natureza',
+    'OdsOnuChoices',
+    'ParticipesModel',
+    'ProcessoProjeto',
+    'PublicoPrivado',
+    'TipoDespesa',
+    'TipoInstrumento',
+    'TipoInstrumentoChoices',
+    'Unidade',
 ]

@@ -1,12 +1,31 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
     <div class="container">
         <a class="navbar-brand fw-semibold" href="{% url 'base:index' %}">Base de Dados BI</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir navegação"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarNav"><ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="{% url 'base:index' %}">Início</a></li>
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Processos</a><ul class="dropdown-menu"><li><a class="dropdown-item" href="{% url 'processo_listar' %}">Consultar processos</a></li><li><a class="dropdown-item" href="{% url 'processo_criar' %}">Novo processo</a></li></ul></li>
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Pessoas</a><ul class="dropdown-menu"><li><a class="dropdown-item" href="{% url 'listar-pessoas' %}">Consultar pessoas</a></li><li><a class="dropdown-item" href="{% url 'criar-pessoa' %}">Nova pessoa</a></li></ul></li>
-            <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Cadastros</a><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="{% url 'unidade_listar' %}">Unidades</a></li><li><a class="dropdown-item" href="{% url 'entidade_parceira_listar' %}">Entidades parceiras</a></li><li><a class="dropdown-item" href="{% url 'modalidade_listar' %}">Modalidades</a></li><li><a class="dropdown-item" href="{% url 'natureza_listar' %}">Naturezas</a></li><li><a class="dropdown-item" href="{% url 'abrangencia_listar' %}">Abrangências</a></li><li><a class="dropdown-item" href="{% url 'participe_listar' %}">Partícipes</a></li><li><a class="dropdown-item" href="{% url 'tipo_instrumento_listar' %}">Tipos de instrumento</a></li><li><a class="dropdown-item" href="{% url 'tipo_despesa_listar' %}">Tipos de despesa</a></li></ul></li>
-        </ul></div>
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Abrir navegação">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'base:index' %}">Início</a></li>
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+   href="#"
+   role="button"
+   data-bs-toggle="dropdown">Processos</a><ul class="dropdown-menu"><li><a class="dropdown-item" href="{% url 'processo_listar' %}">Consultar processos</a></li><li><a class="dropdown-item" href="{% url 'processo_criar' %}">Novo processo</a></li></ul></li>
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+   href="#"
+   role="button"
+   data-bs-toggle="dropdown">Pessoas</a><ul class="dropdown-menu"><li><a class="dropdown-item" href="{% url 'listar-pessoas' %}">Consultar pessoas</a></li><li><a class="dropdown-item" href="{% url 'criar-pessoa' %}">Nova pessoa</a></li></ul></li>
+                <li class="nav-item dropdown"><a class="nav-link dropdown-toggle"
+   href="#"
+   role="button"
+   data-bs-toggle="dropdown">Cadastros</a><ul class="dropdown-menu dropdown-menu-end"><li><a class="dropdown-item" href="{% url 'unidade_listar' %}">Unidades</a></li><li><a class="dropdown-item" href="{% url 'entidade_parceira_listar' %}">Entidades parceiras</a></li><li><a class="dropdown-item" href="{% url 'modalidade_listar' %}">Modalidades</a></li><li><a class="dropdown-item" href="{% url 'natureza_listar' %}">Naturezas</a></li><li><a class="dropdown-item" href="{% url 'abrangencia_listar' %}">Abrangências</a></li><li><a class="dropdown-item" href="{% url 'participe_listar' %}">Partícipes</a></li><li><a class="dropdown-item" href="{% url 'tipo_instrumento_listar' %}">Tipos de instrumento</a></li><li><a class="dropdown-item" href="{% url 'tipo_despesa_listar' %}">Tipos de despesa</a></li></ul></li>
+            </ul>
+        </div>
     </div>
 </nav>

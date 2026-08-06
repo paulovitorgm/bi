@@ -101,41 +101,62 @@ class ParticipeDeleteView(CadastroDeleteView):
 
 
 class TipoDespesaListView(CadastroListView):
-    model, titulo, criar_url = TipoDespesa, 'Tipos de despesa', 'tipo_despesa_criar'
+    model, titulo, criar_url = (TipoDespesa, 'Tipos de despesa', 'tipo_despesa_criar')
 
 
 class TipoDespesaCreateView(CadastroCreateView):
     model, form_class, titulo = TipoDespesa, TipoDespesaForm, 'Novo tipo de despesa'
-    success_url, listar_url = reverse_lazy('tipo_despesa_listar'), 'tipo_despesa_listar'
+    success_url, listar_url = (reverse_lazy('tipo_despesa_listar'), 'tipo_despesa_listar')
 
 
 class TipoDespesaUpdateView(CadastroUpdateView):
     model, form_class, titulo = TipoDespesa, TipoDespesaForm, 'Editar tipo de despesa'
-    success_url, listar_url = reverse_lazy('tipo_despesa_listar'), 'tipo_despesa_listar'
+    success_url, listar_url = (reverse_lazy('tipo_despesa_listar'), 'tipo_despesa_listar')
 
 
 class TipoDespesaDeleteView(CadastroDeleteView):
     model, titulo = TipoDespesa, 'Excluir tipo de despesa'
-    success_url, listar_url = reverse_lazy('tipo_despesa_listar'), 'tipo_despesa_listar'
+    success_url, listar_url = (reverse_lazy('tipo_despesa_listar'), 'tipo_despesa_listar')
 
 
 class TipoInstrumentoListView(CadastroListView):
-    model, titulo, criar_url = TipoInstrumento, 'Tipos de instrumento', 'tipo_instrumento_criar'
+    model, titulo, criar_url = (
+        TipoInstrumento,
+        'Tipos de instrumento',
+        'tipo_instrumento_criar',
+    )
 
 
 class TipoInstrumentoCreateView(CadastroCreateView):
-    model, form_class, titulo = TipoInstrumento, TipoInstrumentoForm, 'Novo tipo de instrumento'
-    success_url, listar_url = reverse_lazy('tipo_instrumento_listar'), 'tipo_instrumento_listar'
+    model, form_class, titulo = (
+        TipoInstrumento,
+        TipoInstrumentoForm,
+        'Novo tipo de instrumento',
+    )
+    success_url, listar_url = (
+        reverse_lazy('tipo_instrumento_listar'),
+        'tipo_instrumento_listar',
+    )
 
 
 class TipoInstrumentoUpdateView(CadastroUpdateView):
-    model, form_class, titulo = TipoInstrumento, TipoInstrumentoForm, 'Editar tipo de instrumento'
-    success_url, listar_url = reverse_lazy('tipo_instrumento_listar'), 'tipo_instrumento_listar'
+    model, form_class, titulo = (
+        TipoInstrumento,
+        TipoInstrumentoForm,
+        'Editar tipo de instrumento',
+    )
+    success_url, listar_url = (
+        reverse_lazy('tipo_instrumento_listar'),
+        'tipo_instrumento_listar',
+    )
 
 
 class TipoInstrumentoDeleteView(CadastroDeleteView):
     model, titulo = TipoInstrumento, 'Excluir tipo de instrumento'
-    success_url, listar_url = reverse_lazy('tipo_instrumento_listar'), 'tipo_instrumento_listar'
+    success_url, listar_url = (
+        reverse_lazy('tipo_instrumento_listar'),
+        'tipo_instrumento_listar',
+    )
 
 
 class TermoAditivoListView(CadastroListView):

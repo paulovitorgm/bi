@@ -36,7 +36,11 @@ class TermoAditivoForm(forms.ModelForm):
         fields = ['termo', 'dt_assinatura', 'dt_termino', 'valor']
         widgets = {
             'termo': forms.TextInput(attrs={'class': 'form-control'}),
-            'dt_assinatura': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'dt_termino': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'dt_assinatura': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'}
+            ),
+            'dt_termino': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'}
+            ),
             'valor': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }

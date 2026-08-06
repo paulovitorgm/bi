@@ -9,12 +9,28 @@ class ProcessoProjetoForm(forms.ModelForm):
     class Meta:
         model = ProcessoProjeto
         fields = [
-            'processo', 'numero_convenio', 'nome_do_processo', 'ementa',
-            'participes', 'tipo_instrumento', 'esfera_administrativa',
-            'abrangencia', 'unidade_interessada', 'modalidade', 'natureza',
-            'entidade_parceira', 'coordenador', 'supervisor_academico',
-            'relator', 'substituto', 'valor_total', 'custos_indiretos',
-            'dt_assinatura', 'dt_inicio', 'dt_termino', 'ods_onu',
+            'processo',
+            'numero_convenio',
+            'nome_do_processo',
+            'ementa',
+            'participes',
+            'tipo_instrumento',
+            'esfera_administrativa',
+            'abrangencia',
+            'unidade_interessada',
+            'modalidade',
+            'natureza',
+            'entidade_parceira',
+            'coordenador',
+            'supervisor_academico',
+            'relator',
+            'substituto',
+            'valor_total',
+            'custos_indiretos',
+            'dt_assinatura',
+            'dt_inicio',
+            'dt_termino',
+            'ods_onu',
         ]
         labels = {
             'processo': 'Processo SEI',
@@ -30,10 +46,13 @@ class ProcessoProjetoForm(forms.ModelForm):
             'ods_onu': 'ODS da ONU',
         }
         widgets = {
-            'processo': forms.TextInput(attrs={
-                'class': 'form-control', 'inputmode': 'numeric',
-                'pattern': '[0-9]*',
-            }),
+            'processo': forms.TextInput(
+                attrs={
+                    'class': 'form-control',
+                    'inputmode': 'numeric',
+                    'pattern': '[0-9]*',
+                }
+            ),
             'numero_convenio': forms.TextInput(attrs={'class': 'form-control'}),
             'nome_do_processo': forms.TextInput(attrs={'class': 'form-control'}),
             'ementa': forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
@@ -41,19 +60,31 @@ class ProcessoProjetoForm(forms.ModelForm):
             'tipo_instrumento': forms.Select(attrs={'class': 'form-select tomselect'}),
             'esfera_administrativa': forms.Select(attrs={'class': 'form-select'}),
             'abrangencia': forms.Select(attrs={'class': 'form-select tomselect'}),
-            'unidade_interessada': forms.SelectMultiple(attrs={'class': 'form-select tomselect'}),
+            'unidade_interessada': forms.SelectMultiple(
+                attrs={'class': 'form-select tomselect'}
+            ),
             'modalidade': forms.SelectMultiple(attrs={'class': 'form-select tomselect'}),
             'natureza': forms.SelectMultiple(attrs={'class': 'form-select tomselect'}),
             'entidade_parceira': forms.Select(attrs={'class': 'form-select tomselect'}),
             'coordenador': forms.Select(attrs={'class': 'form-select tomselect'}),
-            'supervisor_academico': forms.Select(attrs={'class': 'form-select tomselect'}),
+            'supervisor_academico': forms.Select(
+                attrs={'class': 'form-select tomselect'}
+            ),
             'relator': forms.Select(attrs={'class': 'form-select tomselect'}),
             'substituto': forms.Select(attrs={'class': 'form-select tomselect'}),
-            'valor_total': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
-            'custos_indiretos': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+            'valor_total': forms.NumberInput(
+                attrs={'class': 'form-control', 'step': '0.01'}
+            ),
+            'custos_indiretos': forms.NumberInput(
+                attrs={'class': 'form-control', 'step': '0.01'}
+            ),
             'dt_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'dt_termino': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'dt_assinatura': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'dt_termino': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'}
+            ),
+            'dt_assinatura': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'}
+            ),
             'ods_onu': forms.Select(attrs={'class': 'form-select tomselect'}),
         }
 
@@ -75,8 +106,12 @@ class TermoAditivoInlineForm(forms.ModelForm):
         fields = ['termo', 'dt_assinatura', 'dt_termino', 'valor']
         widgets = {
             'termo': forms.TextInput(attrs={'class': 'form-control'}),
-            'dt_assinatura': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'dt_termino': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'dt_assinatura': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'}
+            ),
+            'dt_termino': forms.DateInput(
+                attrs={'class': 'form-control', 'type': 'date'}
+            ),
             'valor': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
 

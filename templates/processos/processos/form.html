@@ -1,9 +1,43 @@
 {% extends "partials/_base.html" %}
 {% block content %}
     <div class="container py-4 form-page"><div class="d-flex justify-content-between align-items-center mb-4"><div><h1 class="h3 mb-1">{% if form.instance.pk %}Editar processo{% else %}Novo processo{% endif %}</h1><p class="text-body-secondary mb-0">Preencha as informações que serão disponibilizadas ao BI.</p></div><a href="{% url 'processo_listar' %}" class="btn btn-outline-secondary">Voltar à lista</a></div><form method="post">{% csrf_token %}{% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
-        <section class="card mb-3"><div class="card-header">Identificação</div><div class="card-body"><div class="row g-3"><div class="col-md-6">{{ form.processo.label_tag }}{{ form.processo }}{{ form.processo.errors }}</div><div class="col-md-6">{{ form.numero_convenio.label_tag }}{{ form.numero_convenio }}{{ form.numero_convenio.errors }}</div><div class="col-12">{{ form.nome_do_processo.label_tag }}{{ form.nome_do_processo }}{{ form.nome_do_processo.errors }}</div><div class="col-12">{{ form.ementa.label_tag }}{{ form.ementa }}{{ form.ementa.errors }}</div></div></div></section>
-        <section class="card mb-3"><div class="card-header">Classificação</div><div class="card-body"><div class="row g-3">{% for field in form %}{% if field.name in 'participes,tipo_instrumento,esfera_administrativa,abrangencia,unidade_interessada,modalidade,natureza,entidade_parceira,ods_onu' %}<div class="col-md-6">{{ field.label_tag }}<div class="d-flex gap-2">{{ field }}{% if field.name == 'participes' %}<button type="button" class="btn btn-outline-primary js-create-related" data-modal-url="{% url 'modal_participe_criar' %}" data-target="id_participes">Novo</button>{% elif field.name == 'tipo_instrumento' %}<button type="button" class="btn btn-outline-primary js-create-related" data-modal-url="{% url 'modal_tipo_instrumento_criar' %}" data-target="id_tipo_instrumento">Novo</button>{% elif field.name == 'abrangencia' %}<button type="button" class="btn btn-outline-primary js-create-related" data-modal-url="{% url 'modal_abrangencia_criar' %}" data-target="id_abrangencia">Novo</button>{% elif field.name == 'unidade_interessada' %}<button type="button" class="btn btn-outline-primary js-create-related" data-modal-url="{% url 'modal_unidade_criar' %}" data-target="id_unidade_interessada">Novo</button>{% elif field.name == 'modalidade' %}<button type="button" class="btn btn-outline-primary js-create-related" data-modal-url="{% url 'modal_modalidade_criar' %}" data-target="id_modalidade">Novo</button>{% elif field.name == 'natureza' %}<button type="button" class="btn btn-outline-primary js-create-related" data-modal-url="{% url 'modal_natureza_criar' %}" data-target="id_natureza">Novo</button>{% elif field.name == 'entidade_parceira' %}<button type="button" class="btn btn-outline-primary js-create-related" data-modal-url="{% url 'modal_entidade_criar' %}" data-target="id_entidade_parceira">Novo</button>{% endif %}</div>{{ field.errors }}</div>{% endif %}{% endfor %}</div></div></section>
-        <section class="card mb-3"><div class="card-header">Responsáveis</div><div class="card-body"><div class="row g-3">{% for field in form %}{% if field.name in 'coordenador,supervisor_academico,relator,substituto' %}<div class="col-md-6">{{ field.label_tag }}<div class="d-flex gap-2">{{ field }}<button type="button" class="btn btn-outline-primary js-create-related" data-modal-url="{% url 'modal_pessoa_criar' %}" data-target="{{ field.id_for_label }}">Novo</button></div>{{ field.errors }}</div>{% endif %}{% endfor %}</div></div></section>
+        <section class="card mb-3">
+            <div class="card-header">Identificação</div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">{{ form.processo.label_tag }}{{ form.processo }}{{ form.processo.errors }}</div>
+                    <div class="col-md-6">{{ form.numero_convenio.label_tag }}{{ form.numero_convenio }}{{ form.numero_convenio.errors }}</div>
+                    <div class="col-12">{{ form.nome_do_processo.label_tag }}{{ form.nome_do_processo }}{{ form.nome_do_processo.errors }}</div>
+                    <div class="col-12">{{ form.ementa.label_tag }}{{ form.ementa }}{{ form.ementa.errors }}</div>
+                </div>
+            </div>
+        </section>
+        <section class="card mb-3"><div class="card-header">Classificação</div><div class="card-body"><div class="row g-3">{% for field in form %}{% if field.name in 'participes,tipo_instrumento,esfera_administrativa,abrangencia,unidade_interessada,modalidade,natureza,entidade_parceira,ods_onu' %}<div class="col-md-6">{{ field.label_tag }}<div class="d-flex gap-2">{{ field }}{% if field.name == 'participes' %}<button type="button"
+        class="btn btn-outline-primary js-create-related"
+        data-modal-url="{% url 'modal_participe_criar' %}"
+        data-target="id_participes">Novo</button>{% elif field.name == 'tipo_instrumento' %}<button type="button"
+        class="btn btn-outline-primary js-create-related"
+        data-modal-url="{% url 'modal_tipo_instrumento_criar' %}"
+        data-target="id_tipo_instrumento">Novo</button>{% elif field.name == 'abrangencia' %}<button type="button"
+        class="btn btn-outline-primary js-create-related"
+        data-modal-url="{% url 'modal_abrangencia_criar' %}"
+        data-target="id_abrangencia">Novo</button>{% elif field.name == 'unidade_interessada' %}<button type="button"
+        class="btn btn-outline-primary js-create-related"
+        data-modal-url="{% url 'modal_unidade_criar' %}"
+        data-target="id_unidade_interessada">Novo</button>{% elif field.name == 'modalidade' %}<button type="button"
+        class="btn btn-outline-primary js-create-related"
+        data-modal-url="{% url 'modal_modalidade_criar' %}"
+        data-target="id_modalidade">Novo</button>{% elif field.name == 'natureza' %}<button type="button"
+        class="btn btn-outline-primary js-create-related"
+        data-modal-url="{% url 'modal_natureza_criar' %}"
+        data-target="id_natureza">Novo</button>{% elif field.name == 'entidade_parceira' %}<button type="button"
+        class="btn btn-outline-primary js-create-related"
+        data-modal-url="{% url 'modal_entidade_criar' %}"
+        data-target="id_entidade_parceira">Novo</button>{% endif %}</div>{{ field.errors }}</div>{% endif %}{% endfor %}</div></div></section>
+        <section class="card mb-3"><div class="card-header">Responsáveis</div><div class="card-body"><div class="row g-3">{% for field in form %}{% if field.name in 'coordenador,supervisor_academico,relator,substituto' %}<div class="col-md-6">{{ field.label_tag }}<div class="d-flex gap-2">{{ field }}<button type="button"
+        class="btn btn-outline-primary js-create-related"
+        data-modal-url="{% url 'modal_pessoa_criar' %}"
+        data-target="{{ field.id_for_label }}">Novo</button></div>{{ field.errors }}</div>{% endif %}{% endfor %}</div></div></section>
         <section class="card mb-3"><div class="card-header">Valores e datas</div><div class="card-body"><div class="row g-3">{% for field in form %}{% if field.name in 'valor_total,custos_indiretos,dt_assinatura,dt_inicio,dt_termino' %}<div class="col-md-4">{{ field.label_tag }}{{ field }}{{ field.errors }}</div>{% endif %}{% endfor %}</div></div></section>
         <section class="card mb-3"><div class="card-header">Termos aditivos</div><div class="card-body"><p class="text-body-secondary">Cadastre somente termos vinculados a este processo.</p>{{ termo_formset.management_form }}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Termo</th><th>Assinatura</th><th>Término</th><th>Valor</th><th>Excluir</th></tr></thead><tbody>{% for termo_form in termo_formset %}<tr>{{ termo_form.id }}<td>{{ termo_form.termo }}{{ termo_form.termo.errors }}</td><td>{{ termo_form.dt_assinatura }}</td><td>{{ termo_form.dt_termino }}</td><td>{{ termo_form.valor }}</td><td>{% if termo_form.instance.pk %}{{ termo_form.DELETE }}{% endif %}</td></tr>{% endfor %}</tbody></table></div></div></section>
         <div class="d-flex justify-content-end gap-2"><a href="{% url 'processo_listar' %}" class="btn btn-light">Cancelar</a><button class="btn btn-primary">Salvar processo</button></div></form></div>

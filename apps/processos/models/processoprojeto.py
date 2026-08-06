@@ -1,5 +1,7 @@
 from decimal import Decimal
 
+from django.contrib.postgres.indexes import GinIndex
+from django.contrib.postgres.search import SearchVectorField
 from django.core.validators import RegexValidator
 from django.db import models
 
@@ -14,7 +16,6 @@ from apps.processos.models.entidadeparceira import EntidadeParceira
 from apps.processos.models.modalidade import Modalidade
 from apps.processos.models.natureza import Natureza
 from apps.processos.models.participesmodel import ParticipesModel
-from apps.processos.models.termosadtivos import TermosAdtivos
 from apps.processos.models.tipoinstrumento import TipoInstrumento
 from apps.processos.models.unidade import Unidade
 
@@ -46,10 +47,7 @@ class ProcessoProjeto(ModeloAuditavel):
         related_name='projetos',
     )
     tipo_instrumento = models.ForeignKey(
-            TipoInstrumento,
-            on_delete=models.RESTRICT,
-            null=False,
-            blank=False
+        TipoInstrumento, on_delete=models.RESTRICT, null=False, blank=False
     )
     modalidade = models.ManyToManyField(Modalidade, related_name='processos')
     esfera_administrativa = models.CharField(
@@ -112,11 +110,13 @@ class ProcessoProjeto(ModeloAuditavel):
 
     # Metadados de Controle Interno / Tramitação
     ods_onu = models.CharField(max_length=50, choices=OdsOnuChoices.choices, blank=True)
+    search_vector = SearchVectorField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Processo'
         verbose_name_plural = 'Processos'
         indexes = [
+            GinIndex(fields=['search_vector']),
             models.Index(fields=['dt_inicio']),
             models.Index(fields=['dt_termino']),
             models.Index(fields=['processo']),
@@ -125,4 +125,3 @@ class ProcessoProjeto(ModeloAuditavel):
 
     def __str__(self):
         return f'SEI nº: {self.processo}'
-

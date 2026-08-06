@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
@@ -49,8 +50,9 @@ class PessoaListView(PaginacaoMixin, ListView):
         queryset = PessoaModel.objects.all()
         busca = self.request.GET.get('q', '').strip()
         if busca:
-            from django.db.models import Q
-            queryset = queryset.filter(Q(nome__icontains=busca) | Q(matricula__icontains=busca))
+            queryset = queryset.filter(
+                Q(nome__icontains=busca) | Q(matricula__icontains=busca)
+            )
         return queryset
 
 
