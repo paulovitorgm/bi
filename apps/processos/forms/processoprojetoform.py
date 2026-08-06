@@ -75,6 +75,9 @@ class ProcessoProjetoForm(forms.ModelForm):
             'valor_total': forms.NumberInput(
                 attrs={'class': 'form-control', 'step': '0.01'}
             ),
+            'valor_inicial': forms.NumberInput(
+                attrs={'class': 'form-control', 'step': '0.01'}
+            ),
             'custos_indiretos': forms.NumberInput(
                 attrs={'class': 'form-control', 'step': '0.01'}
             ),

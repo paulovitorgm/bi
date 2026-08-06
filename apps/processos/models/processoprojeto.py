@@ -96,9 +96,9 @@ class ProcessoProjeto(ModeloAuditavel):
     valor_total = models.DecimalField(
         max_digits=25, decimal_places=2, default=Decimal('0.00')
     )
-    # valor_inicial = models.DecimalField(
-    #     max_digits=25, decimal_places=2, default=Decimal('0.00')
-    # )
+    valor_inicial = models.DecimalField(
+        max_digits=25, decimal_places=2, default=valor_total
+    )
     custos_indiretos = models.DecimalField(
         max_digits=25, decimal_places=2, default=Decimal('0.00')
     )
