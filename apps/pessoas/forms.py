@@ -1,6 +1,6 @@
 from django import forms
 
-from apps.pessoas.models import PessoaModel
+from apps.pessoas.models import PessoaModel, UnidadeDeLotacao
 
 
 class PessoaForm(forms.ModelForm):
@@ -25,15 +25,15 @@ class PessoaForm(forms.ModelForm):
         }
 
 
-class BuscarPessoaForm(forms.Form):
-    matricula = forms.CharField(
-        label='Matricula',
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': '12345678',
-                'inputmode': 'numeric',
-                'oninput': r"this.value=this.value.replace(/\D/g, '').slice(0,8)",
-            }
-        ),
-    )
+class UnidadeDeLotacaoForm(forms.ModelForm):
+    class Meta:
+        model = UnidadeDeLotacao
+        fields = ['sigla', 'nome']
+        widgets = {
+            'sigla': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Sigla'}
+            ),
+            'nome': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Nome da unidade'}
+            ),
+        }

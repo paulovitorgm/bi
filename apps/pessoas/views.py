@@ -1,23 +1,21 @@
 from django.db.models import Q
 from django.http.response import JsonResponse
-from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
-    DetailView,
     ListView,
     UpdateView,
 )
 
 from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
-from apps.pessoas.forms import BuscarPessoaForm, PessoaForm
-from apps.pessoas.models import PessoaModel
+from apps.pessoas.forms import PessoaForm, UnidadeDeLotacaoForm
+from apps.pessoas.models import PessoaModel, UnidadeDeLotacao
 
 
 class PessoaCreate(AuditoriaUsuarioMixin, CreateView):
     model = PessoaModel
-    template_name = 'pessoas/cadastrar.html'
+    template_name = 'pessoas/form.html'
     form_class = PessoaForm
     success_url = reverse_lazy('listar-pessoas')
 
@@ -30,14 +28,6 @@ class PessoaUpdate(AuditoriaUsuarioMixin, UpdateView):
     slug_field = 'matricula'
     slug_url_kwarg = 'matricula'
     success_url = reverse_lazy('listar-pessoas')
-
-
-class PessoaDetail(DetailView):
-    model = PessoaModel
-    template_name = 'pessoas/detalhar.html'
-    context_object_name = 'pessoa'
-    slug_field = 'matricula'
-    slug_url_kwarg = 'matricula'
 
 
 class PessoaListView(PaginacaoMixin, ListView):
@@ -65,72 +55,19 @@ class PessoaDelete(DeleteView):
     success_url = reverse_lazy('listar-pessoas')
 
 
-def buscar_pessoa_para_excluir(request):
-    if request.method == 'POST':
-        form = BuscarPessoaForm(request.POST)
-        if form.is_valid():
-            matricula = form.cleaned_data.get('matricula')
-            try:
-                matr = PessoaModel.objects.get(matricula=matricula)
-                return redirect(
-                    'confirmar-exclusao-pessoa',
-                    matricula=matr.matricula,
-                )
-            except PessoaModel.DoesNotExist:
-                form.add_error(field='matricula', error='Matrícula não encontrada')
-            except PessoaModel.MultipleObjectsReturned:
-                form.add_error(
-                    field='matricula',
-                    error='Existe mais de um pessoa com a mesma matrícula',
-                )
-    else:
-        form = BuscarPessoaForm()
-    return render(request, 'pessoas/busca.html', {'form': form})
+class UnidadeDeLotacaoModalCreateView(CreateView):
+    """Cria uma unidade e a devolve ao seletor da pessoa via modal."""
 
+    model = UnidadeDeLotacao
+    form_class = UnidadeDeLotacaoForm
+    template_name = 'processos/modais/form.html'
+    titulo = 'Nova unidade de lotação'
 
-# Modais
+    def form_valid(self, form):  # ruff: ignore[no-self-use]
+        unidade = form.save()
+        return JsonResponse({'id': unidade.pk, 'text': str(unidade)})
 
-
-class ModalCreateView(CreateView):
-    label_field = None
-
-    def get_label(self, obj):
-        if self.label_field:
-            return getattr(obj, self.label_field)
-        return str(obj)
-
-    def form_valid(self, form):
-        obj = form.save()
-
-        return JsonResponse({
-            'success': True,
-            'id': obj.pk,
-            'text': self.get_label(obj),
-        })
-
-
-class ModalMixin:
-    """
-    Funcionalidades comuns para todas as views carregadas em modal.
-    """
-
-    label_field = None
-
-    def get_label(self, obj):
-        if self.label_field:
-            return getattr(obj, self.label_field)
-        return str(obj)
-
-    def json_success(self, obj, message='Operação realizada com sucesso.'):
-        return JsonResponse({
-            'success': True,
-            'id': obj.pk,
-            'text': self.get_label(obj),
-            'message': message,
-        })
-
-    def form_invalid(self, form):
-        return self.render_to_response(
-            self.get_context_data(form=form),
-            status=400,
-        )
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['titulo'] = self.titulo
+        return context

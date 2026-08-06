@@ -6,7 +6,14 @@ from apps.base.models import ModeloAuditavel
 class UnidadeDeLotacao(models.Model):
     sigla = models.CharField(max_length=60, blank=True, null=True)
     nome = models.CharField(max_length=180, blank=False, null=False)
-    
+
+    class Meta:
+        ordering = ['sigla', 'nome']
+
+    def __str__(self):
+        if self.sigla:
+            return f'{self.sigla} - {self.nome}'
+        return self.nome
 
 
 class PessoaModel(ModeloAuditavel):
@@ -17,13 +24,13 @@ class PessoaModel(ModeloAuditavel):
         null=False
     )
     matricula = models.CharField(
-        max_length=20, 
-        unique=True, 
-        blank=True, 
+        max_length=20,
+        unique=True,
+        blank=True,
         null=True
     )
     unidade_de_lotacao = models.ForeignKey(
-        UnidadeDeLotacao, 
+        UnidadeDeLotacao,
         on_delete=models.SET_NULL,
         blank=False,
         null=True

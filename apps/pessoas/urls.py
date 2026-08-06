@@ -3,10 +3,9 @@ from django.urls import path
 from apps.pessoas.views import (
     PessoaCreate,
     PessoaDelete,
-    PessoaDetail,
     PessoaListView,
     PessoaUpdate,
-    buscar_pessoa_para_excluir,
+    UnidadeDeLotacaoModalCreateView,
 )
 
 urlpatterns = [
@@ -25,15 +24,14 @@ urlpatterns = [
         PessoaCreate.as_view(),
         name='criar-pessoa',
     ),
-    path('pessoas/<str:matricula>/', PessoaDetail.as_view(), name='detalhar-pessoa'),
+    path(
+        'modal/unidades-de-lotacao/',
+        UnidadeDeLotacaoModalCreateView.as_view(),
+        name='modal_unidade_lotacao_criar',
+    ),
     path(
         'deletar-pessoa/<str:matricula>/',
         PessoaDelete.as_view(),
         name='confirmar-exclusao-pessoa',
-    ),
-    path(
-        'buscar-pessoa/',
-        buscar_pessoa_para_excluir,
-        name='buscar-processo',
     ),
 ]

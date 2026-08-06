@@ -10,7 +10,6 @@
                     {% csrf_token %}
                     <div class="row">
                         {% for field in form %}
-                            <!-- Ajuste de largura: CPF e Matrícula/Siape em colunas de 6, Nome em coluna de 12 -->
                             {% if field.name == 'nome' or field.field.widget.input_type == 'textarea' %}
                                 <div class="col-12 mb-3">
                                     <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
@@ -22,7 +21,17 @@
                             {% else %}
                                 <div class="col-md-6 mb-3">
                                     <label for="{{ field.id_for_label }}" class="form-label fw-bold">{{ field.label }}</label>
-                                    {{ field }}
+                                    {% if field.name == 'unidade_de_lotacao' %}
+                                        <div class="d-flex gap-2">
+                                            {{ field }}
+                                            <button type="button"
+                                                    class="btn btn-outline-primary text-nowrap js-create-related"
+                                                    data-modal-url="{% url 'modal_unidade_lotacao_criar' %}"
+                                                    data-target="{{ field.id_for_label }}">Nova</button>
+                                        </div>
+                                    {% else %}
+                                        {{ field }}
+                                    {% endif %}
                                     {% if field.errors %}
                                         <div class="text-danger small mt-1">{{ field.errors }}</div>
                                     {% endif %}
