@@ -6,7 +6,7 @@ from apps.pessoas.models import PessoaModel
 class PessoaForm(forms.ModelForm):
     class Meta:
         model = PessoaModel
-        fields = ['nome', 'matricula', 'sexo']
+        fields = ['nome', 'matricula', 'unidade_de_lotacao']
         widgets = {
             'nome': forms.TextInput(
                 attrs={
@@ -21,7 +21,7 @@ class PessoaForm(forms.ModelForm):
                     'oninput': r"this.value=this.value.replace(/\D/g, '').slice(0,8)",
                 }
             ),
-            'sexo': forms.Select(attrs={'class': 'form-control'}),
+            'unidade_de_lotacao': forms.Select(attrs={'class': 'form-select tomselect'}),
         }
 
 

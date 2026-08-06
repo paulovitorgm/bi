@@ -3,16 +3,31 @@ from django.db import models
 from apps.base.models import ModeloAuditavel
 
 
-class SexoChoices(models.TextChoices):
-    MASC = 'M', 'Masculino'
-    FEM = 'F', 'Feminino'
+class UnidadeDeLotacao(models.Model):
+    sigla = models.CharField(max_length=60, blank=True, null=True)
+    nome = models.CharField(max_length=180, blank=False, null=False)
+    
 
 
 class PessoaModel(ModeloAuditavel):
     id = models.AutoField(primary_key=True)
-    nome = models.CharField(max_length=180, blank=False, null=False)
-    matricula = models.CharField(max_length=20, unique=True, blank=True, null=True)
-    sexo = models.CharField(max_length=1, choices=SexoChoices, null=False, blank=False)
+    nome = models.CharField(
+        max_length=180,
+        blank=False,
+        null=False
+    )
+    matricula = models.CharField(
+        max_length=20, 
+        unique=True, 
+        blank=True, 
+        null=True
+    )
+    unidade_de_lotacao = models.ForeignKey(
+        UnidadeDeLotacao, 
+        on_delete=models.SET_NULL,
+        blank=False,
+        null=True
+    )
 
     class Meta:
         db_table = 'Pessoas'

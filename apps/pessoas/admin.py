@@ -5,9 +5,9 @@ from .models import PessoaModel
 
 @admin.register(PessoaModel)
 class PessoaAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'matricula', 'sexo')
+    list_display = ('nome', 'matricula', 'unidade_de_lotacao')
 
-    search_fields = ('nome', 'matricula', 'sexo')
+    search_fields = ('nome', 'matricula', 'unidade_de_lotacao')
 
     ordering = ('nome',)
 
