@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.views.generic import CreateView
 
+from apps.base.mixins import TrataErroIntegridadeMixin
 from apps.pessoas.forms import PessoaForm
 from apps.pessoas.models import PessoaModel
 from apps.processos.forms.cadastrosform import (
@@ -21,7 +22,7 @@ from apps.processos.models.tipoinstrumento import TipoInstrumento
 from apps.processos.models.unidade import Unidade
 
 
-class ModalCadastroCreateView(CreateView):
+class ModalCadastroCreateView(TrataErroIntegridadeMixin, CreateView):
     template_name = 'processos/modais/form.html'
     titulo = 'Novo cadastro'
 

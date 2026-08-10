@@ -1,4 +1,5 @@
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+from django.db import transaction
 from django.urls import reverse, reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -8,7 +9,11 @@ from django.views.generic import (
     UpdateView,
 )
 
-from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
+from apps.base.mixins import (
+    AuditoriaUsuarioMixin,
+    PaginacaoMixin,
+    TrataErroIntegridadeMixin,
+)
 from apps.pessoas.models import PessoaModel
 from apps.processos.forms.itemplanodespesaform import ItemPlanoDespesaForm
 from apps.processos.forms.pessoaform import PessoaForm
@@ -71,20 +76,25 @@ class TermoAditivoFormsetMixin:
         termo_formset = context['termo_formset']
         if not termo_formset.is_valid():
             return self.render_to_response(context)
-        response = super().form_valid(form)
-        termo_formset.instance = self.object
-        termo_formset.save()
+        with transaction.atomic():
+            response = super().form_valid(form)
+            termo_formset.instance = self.object
+            termo_formset.save()
         return response
 
 
-class ProcessoCreateView(AuditoriaUsuarioMixin, TermoAditivoFormsetMixin, CreateView):
+class ProcessoCreateView(
+    TrataErroIntegridadeMixin, AuditoriaUsuarioMixin, TermoAditivoFormsetMixin, CreateView
+):
     model = ProcessoProjeto
     form_class = ProcessoProjetoForm
     template_name = 'processos/processos/form.html'
     success_url = reverse_lazy('processo_listar')
 
 
-class ProcessoUpdateView(AuditoriaUsuarioMixin, TermoAditivoFormsetMixin, UpdateView):
+class ProcessoUpdateView(
+    TrataErroIntegridadeMixin, AuditoriaUsuarioMixin, TermoAditivoFormsetMixin, UpdateView
+):
     model = ProcessoProjeto
     form_class = ProcessoProjetoForm
     template_name = 'processos/processos/form.html'

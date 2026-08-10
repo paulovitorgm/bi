@@ -32,6 +32,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'base_de_dados_bi.middleware.DatabaseUnavailableMiddleware',
     'django.middleware.security.SecurityMiddleware',
     # whitenoise -- permite que sua aplicação Django sirva arquivos estáticos (CSS, JS, imagens) diretamente em produção
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -177,3 +178,26 @@ PUBLIC_URLS = (
 SESSION_COOKIE_AGE = 21600
 # expira a sessão quando fecha o navegador
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {'format': '{asctime} {levelname} {name} {message}', 'style': '{'},
+    },
+    'handlers': {
+        'application_file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': str(BASE_DIR / 'django.log'),
+            'maxBytes': 5 * 1024 * 1024,
+            'backupCount': 5,
+            'formatter': 'verbose',
+            'level': 'ERROR',
+        },
+    },
+    'loggers': {
+        'django.request': {'handlers': ['application_file'], 'level': 'ERROR', 'propagate': False},
+        'base_de_dados_bi': {'handlers': ['application_file'], 'level': 'ERROR', 'propagate': False},
+        'apps': {'handlers': ['application_file'], 'level': 'ERROR', 'propagate': False},
+    },
+}

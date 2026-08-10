@@ -109,10 +109,7 @@ class ProcessoProjeto(ModeloAuditavel):
     dt_assinatura = models.DateField(null=True, blank=True)
 
     # Metadados de Controle Interno / Tramitação
-    ods_onu = models.SmallIntegerField(
-        choices=OdsOnuChoices.choices, 
-        blank=True
-    )
+    ods_onu = models.SmallIntegerField(choices=OdsOnuChoices.choices, blank=True)
     search_vector = SearchVectorField(null=True, blank=True)
 
     class Meta:

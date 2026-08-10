@@ -1,7 +1,11 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
-from apps.base.mixins import AuditoriaUsuarioMixin, PaginacaoMixin
+from apps.base.mixins import (
+    AuditoriaUsuarioMixin,
+    PaginacaoMixin,
+    TrataExclusaoProtegidaMixin,
+)
 from apps.processos.forms.cadastrosform import (
     AbrangenciaForm,
     ParticipeForm,
@@ -51,7 +55,7 @@ class CadastroUpdateView(AuditoriaUsuarioMixin, UpdateView):
         return context
 
 
-class CadastroDeleteView(DeleteView):
+class CadastroDeleteView(TrataExclusaoProtegidaMixin, DeleteView):
     template_name = 'processos/cadastros/deletar.html'
     titulo = ''
     listar_url = ''

@@ -1,3 +1,12 @@
+import logging
+
+from django.contrib import messages
+from django.db import IntegrityError
+from django.db.models.deletion import ProtectedError, RestrictedError
+
+logger = logging.getLogger(__name__)
+
+
 class AuditoriaUsuarioMixin:
     """Registra o usuário autenticado responsável pela inclusão ou alteração."""
 
@@ -7,6 +16,36 @@ class AuditoriaUsuarioMixin:
                 form.instance.criado_por = self.request.user
             form.instance.atualizado_por = self.request.user
         return super().form_valid(form)
+
+
+class TrataErroIntegridadeMixin:
+    """Avoids a 500 response when concurrent writes violate a constraint."""
+
+    def form_valid(self, form):
+        try:
+            return super().form_valid(form)
+        except IntegrityError:
+            logger.exception('Integrity conflict while saving %s', self.model.__name__)
+            form.add_error(
+                None,
+                'Nao foi possivel salvar porque ja existe um registro com esses dados.',
+            )
+            return self.form_invalid(form)
+
+
+class TrataExclusaoProtegidaMixin:
+    """Explains when relationships prevent an object from being deleted."""
+
+    def form_valid(self, form):
+        try:
+            return super().form_valid(form)
+        except (ProtectedError, RestrictedError):
+            logger.info('Deletion blocked for %s', self.model.__name__)
+            messages.error(
+                self.request,
+                'Este registro nao pode ser excluido porque esta vinculado a outros dados.',
+            )
+            return self.render_to_response(self.get_context_data())
 
 
 class PaginacaoMixin:

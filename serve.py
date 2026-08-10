@@ -1,6 +1,7 @@
 from waitress import serve
 
 from base_de_dados_bi.wsgi import application
+
 print('server')
 serve(
     application,

@@ -1,4 +1,4 @@
-{% extends "errors/_base_error.html" %}
+{% extends "_errors/_base_error.html" %}
 {% block error_code %}500{% endblock %}
 {% block code %}500{% endblock %}
 {% block titulo %}
@@ -6,6 +6,5 @@
 {% endblock %}
 {% block mensagem %}
     Ocorreu um erro inesperado.
-    Nossa equipe foi informada automaticamente.
-    Tente novamente em alguns minutos.
+    Se o problema persistir, informe a equipe responsavel.
 {% endblock %}
