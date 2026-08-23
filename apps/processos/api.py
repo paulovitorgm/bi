@@ -26,13 +26,33 @@ class ProcessoProjetoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcessoProjeto
         fields = [
-            'id', 'processo', 'numero_convenio', 'nome_do_processo', 'ementa',
-            'participes', 'unidade_interessada', 'tipo_instrumento', 'modalidade',
-            'esfera_administrativa', 'natureza', 'abrangencia', 'entidade_parceira',
-            'coordenador', 'supervisor_academico', 'relator', 'substituto',
-            'valor_inicial', 'valor_total', 'custos_indiretos', 'dt_inicio',
-            'dt_termino', 'dt_assinatura', 'ods_onu', 'termos_aditivos',
-            'criado_em', 'atualizado_em',
+            'id',
+            'processo',
+            'numero_convenio',
+            'nome_do_processo',
+            'ementa',
+            'participes',
+            'unidade_interessada',
+            'tipo_instrumento',
+            'modalidade',
+            'esfera_administrativa',
+            'natureza',
+            'abrangencia',
+            'entidade_parceira',
+            'coordenador',
+            'supervisor_academico',
+            'relator',
+            'substituto',
+            'valor_inicial',
+            'valor_total',
+            'custos_indiretos',
+            'dt_inicio',
+            'dt_termino',
+            'dt_assinatura',
+            'ods_onu',
+            'termos_aditivos',
+            'criado_em',
+            'atualizado_em',
         ]
         read_only_fields = ['id', 'valor_total', 'criado_em', 'atualizado_em']
 
@@ -40,9 +60,9 @@ class ProcessoProjetoSerializer(serializers.ModelSerializer):
         inicio = attrs.get('dt_inicio', getattr(self.instance, 'dt_inicio', None))
         termino = attrs.get('dt_termino', getattr(self.instance, 'dt_termino', None))
         if inicio and termino and termino < inicio:
-            raise serializers.ValidationError(
-                {'dt_termino': 'A data de término não pode ser anterior à data de início.'}
-            )
+            raise serializers.ValidationError({
+                'dt_termino': 'A data de término não pode ser anterior à data de início.'
+            })
         return attrs
 
 

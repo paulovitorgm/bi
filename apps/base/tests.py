@@ -13,7 +13,7 @@ class ErrorPageTests(SimpleTestCase):
         response = page_not_found(self.request)
 
         self.assertEqual(response.status_code, 404)
-        self.assertContains(response, 'P')
+        self.assertContains(response, 'P', status_code=404)
 
     def test_database_unavailable_returns_503(self):
         middleware = DatabaseUnavailableMiddleware(lambda request: None)

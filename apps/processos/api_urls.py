@@ -22,7 +22,9 @@ router.register('entidades-parceiras', EntidadeParceiraViewSet, basename='api-en
 router.register('modalidades', ModalidadeViewSet, basename='api-modalidade')
 router.register('naturezas', NaturezaViewSet, basename='api-natureza')
 router.register('participes', ParticipesViewSet, basename='api-participe')
-router.register('tipos-instrumento', TipoInstrumentoViewSet, basename='api-tipo-instrumento')
+router.register(
+    'tipos-instrumento', TipoInstrumentoViewSet, basename='api-tipo-instrumento'
+)
 router.register('unidades', UnidadeViewSet, basename='api-unidade')
 
 urlpatterns = router.urls

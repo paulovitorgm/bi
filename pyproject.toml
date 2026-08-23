@@ -71,7 +71,7 @@ lint = 'ruff check .; ruff check . --diff'
 format = "ruff check . --fix && ruff format . && djlint . --reformat"
 run = 'python manage.py runserver'
 m = 'python manage.py'
-pre_test = 'task lint'
+pre_test = 'python manage.py collectstatic --noinput'
 test = 'coverage run --source="." manage.py test'
 post_test = 'coverage html'
 

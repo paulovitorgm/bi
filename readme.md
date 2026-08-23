@@ -19,7 +19,7 @@ O sistema foi arquitetado desde a sua modelagem relacional para atuar como **Dat
 - **Rastreabilidade de Participação Acadêmica:** Vínculo de pessoas a múltiplos papéis (Coordenador, Supervisor Acadêmico, Relator e Substituto).
 - **Mapeamento Multisetorial (N:N):** Suporte a múltiplas Unidades Acadêmicas/Administrativas interessadas em um mesmo projeto.
 - **Alinhamento Estratégico:** Categorização por Modalidade, Natureza, Esfera Administrativa e Objetivos de Desenvolvimento Sustentável (ODS/ONU).
-- **Gerador de Dados de Teste (Management Command):** Script CLI customizado e otimizado para gerar dados sintéticos em alta escala via inserções em lote (`bulk_create`).
+- **API REST:** Endpoints autenticados para processos, termos aditivos e consulta de cadastros de apoio.
 
 ---
 
@@ -27,7 +27,7 @@ O sistema foi arquitetado desde a sua modelagem relacional para atuar como **Dat
 
 As rotas da aplicação estão divididas entre o módulo de administração, autenticação e os aplicativos funcionais (`processos` e `pessoas`).
 
-> **⚠️ Nota de Arquitetura de URLs:** As rotas estáticas/específicas (ex: `/unidades/`) são declaradas antes das rotas dinâmicas com parâmetros (ex: `/<int:pk>/`) para evitar sobrescrita no resolvedor do Django.
+> **Nota:** As rotas da interface usam `/processos/` e `/pessoas/`. A API versionada fica em `/api/v1/`.
 
 ### 🔹 App `processos` (`/processos/`)
 
@@ -37,20 +37,20 @@ As rotas da aplicação estão divididas entre o módulo de administração, aut
 | `GET` | `/processos/unidades/` | `UnidadeListView` | Lista de todas as Unidades Acadêmicas/Administrativas. |
 | `GET` | `/processos/modalidades/` | `ModalidadeListView` | Lista de modalidades (Pesquisa, Ensino, Extensão, etc.). |
 | `GET` | `/processos/naturezas/` | `NaturezaListView` | Lista de naturezas dos projetos (Acadêmico, Tecnológico, etc.). |
-| `GET` | `/processos/despesas/` | `ItemPlanoDespesaListView` | Visão consolidada dos itens do plano de despesas. |
-| `GET` | `/processos/<int:pk>/` | `ProcessoDetailView` | Detalhes completos de um processo específico por ID. |
+| `GET` | `/processos/<str:processo>/detalhar/` | `ProcessoDetailView` | Detalhes completos por número do processo. |
 | `GET` | `/processos/novo/` | `ProcessoCreateView` | Formulário para cadastro de um novo processo/projeto. |
 | `POST`| `/processos/novo/` | `ProcessoCreateView` | Processa a criação e grava o novo processo no banco. |
-| `GET` | `/processos/<int:pk>/editar/`| `ProcessoUpdateView` | Form de edição dos dados gerais e financeiros. |
-| `POST`| `/processos/<int:pk>/editar/`| `ProcessoUpdateView` | Grava as alterações do processo existente. |
-| `POST`| `/processos/<int:pk>/deletar/`| `ProcessoDeleteView` | Remove um processo da base de dados. |
+| `GET` | `/processos/<str:processo>/editar/`| `ProcessoUpdateView` | Form de edição dos dados gerais e financeiros. |
+| `POST`| `/processos/<str:processo>/editar/`| `ProcessoUpdateView` | Grava as alterações do processo existente. |
+| `POST`| `/processos/<str:processo>/excluir/`| `ProcessoDeleteView` | Remove um processo da base de dados. |
 
 ### 🔹 App `pessoas` (`/pessoas/`)
 
 | Método | URL / Rota | View associada | Descrição |
 | :--- | :--- | :--- | :--- |
 | `GET` | `/pessoas/` | `PessoaListView` | Listagem geral de docentes, técnicos, colaboradores e alunos. |
-| `GET` | `/pessoas/<int:pk>/` | `PessoaDetailView` | Exibe o perfil da pessoa e os projetos vinculados a ela. |
+| `GET` | `/pessoas/editar-pessoa/<str:matricula>/` | `PessoaUpdate` | Edita uma pessoa pela matrícula. |
+| `POST` | `/pessoas/deletar-pessoa/<str:matricula>/` | `PessoaDelete` | Remove uma pessoa pela matrícula. |
 
 ### 🔹 Rotas Globais e Sistema
 
@@ -58,15 +58,16 @@ As rotas da aplicação estão divididas entre o módulo de administração, aut
 | :--- | :--- | :--- |
 | `GET` | `/admin/` | Painel Administrativo nativo do Django (`Django Admin`). |
 | `GET` | `/` | Redirecionamento/Dashboard principal do sistema web. |
+| `GET` | `/api/v1/` | Router DRF | API REST versionada e autenticada. |
 
 ---
 
 ## 🛠️ Tecnologias e Gerenciamento de Pacotes
 
-- **Linguagem:** Python 3.12+
+- **Linguagem:** Python 3.14+
 - **Gerenciador de Dependências:** [Poetry](https://python-poetry.org/) (`pyproject.toml` / `poetry.lock`)
-- **Framework Web:** Django 5.x
-- **Banco de Dados:** PostgreSQL / SQLite (Dev)
+- **Framework Web:** Django 6.x
+- **Banco de Dados:** PostgreSQL
 - **Driver de Banco:** `psycopg3`
 - **Massa de Dados / Testes:** `Faker` (pt_BR)
 - **Business Intelligence:** Power BI Desktop / Power BI Service (DirectQuery ou Import via OLE DB/PostgreSQL Connector)

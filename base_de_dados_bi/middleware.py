@@ -2,9 +2,9 @@ import logging
 
 from django.conf import settings
 from django.db import InterfaceError, OperationalError
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 
@@ -72,6 +72,8 @@ class ApiCorsMiddleware:
         if allowed:
             response['Access-Control-Allow-Origin'] = origin
             response['Vary'] = 'Origin'
-            response['Access-Control-Allow-Methods'] = 'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+            response['Access-Control-Allow-Methods'] = (
+                'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+            )
             response['Access-Control-Allow-Headers'] = 'Authorization, Content-Type'
         return response
