@@ -20,6 +20,7 @@ O sistema foi arquitetado desde a sua modelagem relacional para atuar como **Dat
 - **Mapeamento Multisetorial (N:N):** Suporte a múltiplas Unidades Acadêmicas/Administrativas interessadas em um mesmo projeto.
 - **Alinhamento Estratégico:** Categorização por Modalidade, Natureza, Esfera Administrativa e Objetivos de Desenvolvimento Sustentável (ODS/ONU).
 - **API REST:** Endpoints autenticados para processos, termos aditivos e consulta de cadastros de apoio.
+- **Gerador de Dados de Teste:** Comandos `criar_pessoas` e `criar_processos` geram dados sintéticos em lote usando Faker e `bulk_create`.
 
 ---
 
@@ -75,6 +76,23 @@ As rotas da aplicação estão divididas entre o módulo de administração, aut
 ---
 
 ## 🚀 Guia de Instalação e Execução Local
+
+### Gerar dados fictícios
+
+Com o banco configurado e as migrations aplicadas, crie pessoas:
+
+```bash
+poetry run python manage.py criar_pessoas 300
+```
+
+Para criar cadastros auxiliares, pessoas, processos e despesas:
+
+```bash
+poetry run python manage.py criar_processos --pessoas 300 --processos 1000
+```
+
+O comando de processos reutiliza cadastros auxiliares existentes e evita
+duplicar processos pelo número SEI.
 
 ### 1. Pré-requisitos
 - Python 3.12 ou superior instalado.
