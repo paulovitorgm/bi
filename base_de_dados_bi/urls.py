@@ -18,4 +18,6 @@ urlpatterns = [
         name='login',
     ),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('api/v1/', include('apps.processos.api_urls')),
+    path('api-auth/', include('rest_framework.urls')),
 ]

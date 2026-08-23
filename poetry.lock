@@ -544,6 +544,21 @@ Django = ">=5.2"
 drf = ["djangorestframework"]
 
 [[package]]
+name = "djangorestframework"
+version = "3.18.0"
+description = "Web APIs for Django, made easy."
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "djangorestframework-3.18.0-py3-none-any.whl", hash = "sha256:381fc44d3249c9565c5f723850855b734e99030eb30957a49f506d3fe11d7dcb"},
+    {file = "djangorestframework-3.18.0.tar.gz", hash = "sha256:2323a5111837e0b784dcb8323abc78ecc54fa2a5af7aff2677cf50cdd849477f"},
+]
+
+[package.dependencies]
+django = ">=5.2"
+
+[[package]]
 name = "djlint"
 version = "1.43.2"
 description = "HTML template linter and formatter (Django, Jinja, Twig, Nunjucks, Handlebars, Liquid, Go templates)"
@@ -1866,4 +1881,4 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.14"
-content-hash = "b52ce5a8fbbee1bfbc031cdf5310c10a98f21094eecf0c70ce9d7c67c82b0d41"
+content-hash = "4247d71b9a85172eec61c2bf39d991d378ffe4cbcfca32d327edea237c17dbe5"

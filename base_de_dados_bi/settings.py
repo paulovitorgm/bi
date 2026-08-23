@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'apps.base',
     'apps.pessoas',
     'apps.processos',
+    'rest_framework'
 
 ]
 
@@ -43,6 +44,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'base_de_dados_bi.middleware.LoginRequiredMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'base_de_dados_bi.middleware.ApiCorsMiddleware',
 ]
 
 ROOT_URLCONF = 'base_de_dados_bi.urls'
@@ -141,19 +143,11 @@ CSRF_COOKIE_SECURE = os.getenv('CSRF_COOKIE_SECURE', 'False') == 'True'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
-
-    'DEFAULT_PERMISSION_CLASSES': [
-        'apps.utils.permissoes.PermissaoAutenticacao'
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ],
-}
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
+    if origin.strip()
+]
 
 
 # Troca do algoritimo de hash padrão para Argon2
@@ -200,4 +194,14 @@ LOGGING = {
         'base_de_dados_bi': {'handlers': ['application_file'], 'level': 'ERROR', 'propagate': False},
         'apps': {'handlers': ['application_file'], 'level': 'ERROR', 'propagate': False},
     },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_PERMISSION_CLASSES': ['rest_framework.permissions.IsAuthenticated'],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
 }

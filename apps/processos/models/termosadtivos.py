@@ -23,3 +23,13 @@ class TermosAdtivos(ModeloAuditavel):
 
     def __str__(self):
         return self.termo
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.processo.recalcular_valor_total()
+
+    def delete(self, *args, **kwargs):
+        processo = self.processo
+        result = super().delete(*args, **kwargs)
+        processo.recalcular_valor_total()
+        return result

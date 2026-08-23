@@ -80,6 +80,7 @@ class TermoAditivoFormsetMixin:
             response = super().form_valid(form)
             termo_formset.instance = self.object
             termo_formset.save()
+            self.object.recalcular_valor_total()
         return response
 
 

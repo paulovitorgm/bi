@@ -25,6 +25,7 @@ class ProcessoProjetoForm(forms.ModelForm):
             'supervisor_academico',
             'relator',
             'substituto',
+            'valor_inicial',
             'valor_total',
             'custos_indiretos',
             'dt_assinatura',
@@ -90,6 +91,12 @@ class ProcessoProjetoForm(forms.ModelForm):
             ),
             'ods_onu': forms.Select(attrs={'class': 'form-select tomselect'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # O total é calculado no servidor e apresentado apenas para conferência.
+        self.fields['valor_total'].disabled = True
+        self.fields['valor_total'].required = False
 
     def clean(self):
         cleaned_data = super().clean()

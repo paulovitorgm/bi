@@ -4,6 +4,7 @@ from django.contrib.postgres.indexes import GinIndex
 from django.contrib.postgres.search import SearchVectorField
 from django.core.validators import RegexValidator
 from django.db import models
+from django.db.models import Sum
 
 from apps.base.models import ModeloAuditavel
 from apps.pessoas.models import PessoaModel
@@ -97,7 +98,7 @@ class ProcessoProjeto(ModeloAuditavel):
         max_digits=25, decimal_places=2, default=Decimal('0.00')
     )
     valor_inicial = models.DecimalField(
-        max_digits=25, decimal_places=2, default=valor_total
+        max_digits=25, decimal_places=2, default=Decimal('0.00')
     )
     custos_indiretos = models.DecimalField(
         max_digits=25, decimal_places=2, default=Decimal('0.00')
@@ -125,3 +126,22 @@ class ProcessoProjeto(ModeloAuditavel):
 
     def __str__(self):
         return f'SEI nº: {self.processo}'
+
+    def recalcular_valor_total(self, commit=True):
+        """Atualiza o total a partir do valor inicial e dos termos aditivos."""
+        valor_aditivos = self.termos_aditivos.aggregate(total=Sum('valor'))['total']
+        self.valor_total = self.valor_inicial + (valor_aditivos or Decimal('0.00'))
+        if commit:
+            self.save(update_fields=['valor_total', 'atualizado_em'])
+        return self.valor_total
+
+    def save(self, *args, **kwargs):
+        # Um processo novo ainda não possui termos; nos demais casos, o valor
+        # não pode divergir da soma persistida dos aditivos.
+        if self._state.adding:
+            self.valor_total = self.valor_inicial
+        else:
+            self.recalcular_valor_total(commit=False)
+            if kwargs.get('update_fields') is not None:
+                kwargs['update_fields'] = set(kwargs['update_fields']) | {'valor_total'}
+        super().save(*args, **kwargs)

@@ -43,7 +43,8 @@ class TrataExclusaoProtegidaMixin:
             logger.info('Deletion blocked for %s', self.model.__name__)
             messages.error(
                 self.request,
-                'Este registro nao pode ser excluido porque esta vinculado a outros dados.',
+                """Este registro nao pode ser excluido
+                 porque esta vinculado a outros dados.""",
             )
             return self.render_to_response(self.get_context_data())
 

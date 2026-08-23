@@ -1,20 +1,28 @@
 {% extends 'partials/_base.html' %}
 {% block content %}
     <div class="container pt-3 d-flex justify-content-end">
-        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#manualRapidoModal">
-            Manual rápido
-        </button>
+        <button type="button"
+                class="btn btn-outline-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#manualRapidoModal">Manual rápido</button>
     </div>
     <div class="container py-4"><div class="p-4 p-md-5 mb-4 bg-white rounded-3 shadow-sm"><h1 class="display-6">Base de Dados BI</h1><p class="lead text-body-secondary mb-0">Central de consulta e cadastro para a base analítica.</p></div><div class="row g-3 mb-4"><div class="col-md-6"><div class="card"><div class="card-body"><div class="text-body-secondary">Processos cadastrados</div><div class="display-6">{{ total_processos }}</div><a href="{% url 'processo_listar' %}">Consultar processos</a></div></div></div><div class="col-md-6"><div class="card"><div class="card-body"><div class="text-body-secondary">Pessoas cadastradas</div><div class="display-6">{{ total_pessoas }}</div><a href="{% url 'listar-pessoas' %}">Consultar pessoas</a></div></div></div></div><h2 class="h4 mb-3">Acesso rápido</h2><div class="row row-cols-1 row-cols-md-3 g-3"><div class="col"><a class="card card-body text-decoration-none"
    href="{% url 'processo_criar' %}">Novo processo</a></div><div class="col"><a class="card card-body text-decoration-none"
    href="{% url 'criar-pessoa' %}">Nova pessoa</a></div><div class="col"><a class="card card-body text-decoration-none"
    href="{% url 'unidade_listar' %}">Gerenciar cadastros</a></div></div></div>
-    <div class="modal fade" id="manualRapidoModal" tabindex="-1" aria-labelledby="manualRapidoModalLabel" aria-hidden="true">
+    <div class="modal fade"
+         id="manualRapidoModal"
+         tabindex="-1"
+         aria-labelledby="manualRapidoModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title fs-5" id="manualRapidoModalLabel">Manual rápido do usuário</h2>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Fechar"></button>
                 </div>
                 <div class="modal-body">
                     <p>Use este guia para as tarefas mais frequentes.</p>
