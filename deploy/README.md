@@ -1,7 +1,7 @@
 # Operação em produção (sem contêiner)
 
 Para uma implantação definitiva, execute o Django com um servidor WSGI, como
-o **Waitress**, na porta local `80`. Mantenha essa porta inacessível pela
+o **Waitress**, na porta local `8001`. Mantenha essa porta inacessível pela
 rede; exponha somente o proxy web (Nginx ou IIS) em `80/443`.
 
 ## Configuração inicial
@@ -26,6 +26,20 @@ rede; exponha somente o proxy web (Nginx ou IIS) em `80/443`.
    poetry run pip install waitress==3.0.2
    poetry run waitress-serve --listen=127.0.0.1:8001 base_de_dados_bi.wsgi:application
    ```
+
+O arquivo `.env` deve conter, no mínimo, a chave secreta, os hosts permitidos
+e as credenciais do PostgreSQL. Nunca use os valores de exemplo em produção.
+
+## Backup do banco
+
+Faça backups regulares do PostgreSQL com `pg_dump` e teste a restauração em um
+ambiente separado. Um exemplo é:
+
+```bash
+pg_dump -Fc -h localhost -U USUARIO -d BANCO > backup.dump
+createdb -h localhost -U USUARIO banco_restauracao
+pg_restore -h localhost -U USUARIO -d banco_restauracao backup.dump
+```
 
 ## Windows Server
 

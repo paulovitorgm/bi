@@ -18,16 +18,12 @@ Os cadastros abaixo são somente leitura e oferecem `GET` para lista e detalhe:
 `pessoas`, `abrangencias`, `entidades-parceiras`, `modalidades`, `naturezas`,
 `participes`, `tipos-instrumento` e `unidades`.
 
-Todas as listas são paginadas. Use `page` e `page_size` conforme a configuração
-do servidor. Nos endpoints de processos e termos aditivos, use:
+As listas usam paginação por página. O tamanho padrão é configurado no servidor;
+o parâmetro `page_size` não está habilitado atualmente.
 
-- `?search=termo` para busca textual;
-- `?ordering=campo` para ordenar ascendente;
-- `?ordering=-campo` para ordenar descendente.
-
-Os campos permitidos para ordenação são `processo`, `dt_inicio`, `dt_termino`
-e `valor_total` em processos, e `termo`, `dt_assinatura`, `dt_termino` e
-`valor` em termos aditivos.
+Busca textual e ordenação por query string ainda não estão habilitadas na API.
+Os atributos `search_fields` e `ordering_fields` existentes no código não
+alteram o comportamento sem os respectivos filtros do Django REST Framework.
 
 ## Valores e importação em massa
 
@@ -48,6 +44,13 @@ origens permitidas no `.env`:
 CORS_ALLOWED_ORIGINS=https://novo-front.exemplo.gov.br,http://localhost:3000
 ```
 
-O middleware responde a preflight `OPTIONS` da API e permite credenciais,
-`Authorization`, `Content-Type` e `X-CSRFToken`. A origem não incluída nessa
-lista não recebe headers CORS.
+O middleware responde a preflight `OPTIONS` da API e permite os headers
+`Authorization` e `Content-Type`. A origem não incluída nessa lista não recebe
+headers CORS. O suporte a credenciais e a `X-CSRFToken` ainda não está
+implementado.
+
+## Limitações atuais
+
+- Cadastros auxiliares são somente leitura pela API.
+- Despesas não possuem endpoints REST próprios.
+- Operações em massa exigem o recálculo explícito dos totais.

@@ -1,7 +1,7 @@
 # 📊 System Base Data BI
 
-[![Python Version](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/)
-[![Django Version](https://img.shields.io/badge/django-5.0%2B-green.svg)](https://www.djangoproject.com/)
+[![Python Version](https://img.shields.io/badge/python-3.14%2B-blue.svg)](https://www.python.org/)
+[![Django Version](https://img.shields.io/badge/django-6.0%2B-green.svg)](https://www.djangoproject.com/)
 [![Package Manager](https://img.shields.io/badge/poetry-1.8%2B-blueviolet.svg)](https://python-poetry.org/)
 [![Database](https://img.shields.io/badge/database-PostgreSQL-blue.svg)](https://www.postgresql.org/)
 [![License](https://img.shields.io/badge/license-MIT-informational.svg)](LICENSE)
@@ -77,7 +77,7 @@ As rotas da aplicação estão divididas entre o módulo de administração, aut
 
 ## 🚀 Guia de Instalação e Execução Local
 
-### Gerar dados fictícios
+### 3. Gerar dados fictícios
 
 Com o banco configurado e as migrations aplicadas, crie pessoas:
 
@@ -94,8 +94,18 @@ poetry run python manage.py criar_processos --pessoas 300 --processos 1000
 O comando de processos reutiliza cadastros auxiliares existentes e evita
 duplicar processos pelo número SEI.
 
+### 4. Testes e qualidade
+
+```powershell
+poetry run python manage.py test
+poetry run ruff check .
+poetry run python manage.py check
+```
+
+Mais documentos estão disponíveis em [docs/index.md](docs/index.md).
+
 ### 1. Pré-requisitos
-- Python 3.12 ou superior instalado.
+- Python 3.14 ou superior instalado.
 - [Poetry](https://python-poetry.org/docs/#installation) instalado no ambiente do sistema.
 - PostgreSQL rodando localmente ou via Container Docker.
 
@@ -109,5 +119,14 @@ cd bi
 # Instale todas as dependências mapeadas no pyproject.toml
 poetry install
 
-# Ative o ambiente virtual criado pelo Poetry
-poetry shell
+# Crie o arquivo de ambiente a partir do exemplo e preencha os valores locais
+Copy-Item .envexemple .env
+
+# Aplique as migrations
+poetry run python manage.py migrate
+
+# Crie um usuário administrador
+poetry run python manage.py createsuperuser
+
+# Inicie o servidor de desenvolvimento
+poetry run python manage.py runserver
