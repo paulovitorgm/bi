@@ -5,6 +5,11 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase, override_settings
 from django.urls import reverse
 
+from apps.pessoas.models import PessoaModel
+from apps.processos.forms.processoprojetoform import (
+    ProcessoProjetoForm,
+    TermoAditivoInlineForm,
+)
 from apps.processos.models import Modalidade, ProcessoProjeto, TipoInstrumento, Unidade
 from apps.processos.models.choices import EsferaAdministrativaChoices, OdsOnuChoices
 from apps.processos.models.termosadtivos import TermosAdtivos
@@ -111,3 +116,88 @@ class RecalculoEmMassaTests(TestCase):
 
         processo.refresh_from_db()
         self.assertEqual(processo.valor_total, Decimal('125.00'))
+
+
+class ValidacaoProcessoFormTests(TestCase):
+    def setUp(self):
+        self.tipo_instrumento = TipoInstrumento.objects.create(nome='Contrato')
+        self.unidade = Unidade.objects.create(sigla='FGA', nome='Faculdade do Gama')
+        self.modalidade = Modalidade.objects.create(nome='Pesquisa')
+        self.pessoa = PessoaModel.objects.create(nome='Pessoa Teste')
+
+    def dados_processo(self, **alteracoes):
+        dados = {
+            'processo': '2310600000000003',
+            'nome_do_processo': 'Processo de teste',
+            'tipo_instrumento': self.tipo_instrumento.pk,
+            'esfera_administrativa': EsferaAdministrativaChoices.FEDERAL,
+            'unidade_interessada': [self.unidade.pk],
+            'modalidade': [self.modalidade.pk],
+            'valor_inicial': '100.00',
+            'custos_indiretos': '0.00',
+            'dt_assinatura': '2026-01-10',
+            'dt_inicio': '2026-01-10',
+            'dt_termino': '2026-01-10',
+        }
+        dados.update(alteracoes)
+        return dados
+
+    def test_permite_datas_no_mesmo_dia(self):
+        form = ProcessoProjetoForm(data=self.dados_processo())
+
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_rejeita_inicio_anterior_a_assinatura(self):
+        form = ProcessoProjetoForm(
+            data=self.dados_processo(dt_inicio='2026-01-09')
+        )
+
+        self.assertIn('dt_inicio', form.errors)
+
+    def test_rejeita_termino_anterior_a_assinatura_e_inicio(self):
+        form = ProcessoProjetoForm(
+            data=self.dados_processo(
+                dt_inicio='2026-01-11',
+                dt_termino='2026-01-09',
+            )
+        )
+
+        self.assertIn('dt_termino', form.errors)
+        self.assertGreaterEqual(len(form.errors['dt_termino']), 2)
+
+    def test_rejeita_pessoa_em_mais_de_um_papel(self):
+        form = ProcessoProjetoForm(
+            data=self.dados_processo(
+                coordenador=self.pessoa.pk,
+                relator=self.pessoa.pk,
+            )
+        )
+
+        self.assertIn('coordenador', form.errors)
+        self.assertIn('relator', form.errors)
+
+
+class ValidacaoTermoAditivoFormTests(TestCase):
+    def test_permite_assinatura_no_mesmo_dia_do_termino(self):
+        form = TermoAditivoInlineForm(
+            data={
+                'termo': 'Termo 1',
+                'dt_assinatura': '2026-01-10',
+                'dt_termino': '2026-01-10',
+                'valor': '10.00',
+            }
+        )
+
+        self.assertTrue(form.is_valid(), form.errors)
+
+    def test_rejeita_assinatura_posterior_ao_termino(self):
+        form = TermoAditivoInlineForm(
+            data={
+                'termo': 'Termo 2',
+                'dt_assinatura': '2026-01-11',
+                'dt_termino': '2026-01-10',
+                'valor': '10.00',
+            }
+        )
+
+        self.assertIn('dt_termino', form.errors)

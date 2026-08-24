@@ -100,13 +100,47 @@ class ProcessoProjetoForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        dt_assinatura = cleaned_data.get('dt_assinatura')
         dt_inicio = cleaned_data.get('dt_inicio')
         dt_termino = cleaned_data.get('dt_termino')
+
+        if dt_assinatura and dt_inicio and dt_inicio < dt_assinatura:
+            self.add_error(
+                'dt_inicio',
+                'A data de início não pode ser anterior à data de assinatura.',
+            )
+        if dt_assinatura and dt_termino and dt_termino < dt_assinatura:
+            self.add_error(
+                'dt_termino',
+                'A data de término não pode ser anterior à data de assinatura.',
+            )
         if dt_inicio and dt_termino and dt_termino < dt_inicio:
             self.add_error(
                 'dt_termino',
                 'A data de término não pode ser anterior à data de início.',
             )
+
+        responsaveis = {
+            nome: cleaned_data.get(nome)
+            for nome in (
+                'coordenador',
+                'supervisor_academico',
+                'relator',
+                'substituto',
+            )
+        }
+        por_pessoa = {}
+        for papel, pessoa in responsaveis.items():
+            if pessoa is not None:
+                por_pessoa.setdefault(pessoa.pk, []).append(papel)
+        for papeis in por_pessoa.values():
+            if len(papeis) > 1:
+                mensagem = (
+                    'A mesma pessoa não pode exercer mais de um papel neste processo.'
+                )
+                for papel in papeis:
+                    self.add_error(papel, mensagem)
+
         return cleaned_data
 
 
@@ -124,6 +158,17 @@ class TermoAditivoInlineForm(forms.ModelForm):
             ),
             'valor': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        dt_assinatura = cleaned_data.get('dt_assinatura')
+        dt_termino = cleaned_data.get('dt_termino')
+        if dt_assinatura and dt_termino and dt_assinatura > dt_termino:
+            self.add_error(
+                'dt_termino',
+                'A assinatura deve ser anterior ou igual à data de término.',
+            )
+        return cleaned_data
 
 
 TermoAditivoFormSet = inlineformset_factory(
