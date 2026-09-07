@@ -48,6 +48,9 @@ class LoginRequiredMiddleware:
         if path in settings.PUBLIC_URLS:
             return self.get_response(request)
 
+        if path.startswith('/recuperar-senha/'):
+            return self.get_response(request)
+
         if path.startswith(settings.STATIC_URL):
             return self.get_response(request)
 

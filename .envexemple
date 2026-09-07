@@ -2,13 +2,27 @@ SECRET_KEY=gere-uma-chave-longa-e-aleatoria-para-producao
 DEBUG=False
 ALLOWED_HOSTS=servidor-bi.interno,192.168.1.50
 CSRF_TRUSTED_ORIGINS=https://servidor-bi.interno
+
 # Altere para True somente depois de configurar HTTPS no Nginx/IIS.
 SECURE_SSL_REDIRECT=False
 SESSION_COOKIE_SECURE=False
 CSRF_COOKIE_SECURE=False
+# Banco de dados
 DB_NAME=BANCODEDADOS
 DB_USER=BANCODEDADOS
 DB_PASSWORD=BANCODEDADOS
 DB_HOST=localhost
 DB_PORT=5432
+
 CORS_ALLOWED_ORIGINS=http://localhost:3000
+
+# E-mail para recuperação de senha. Em desenvolvimento, mantenha o backend de console.
+EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+EMAIL_HOST=smtp.exemplo.com
+EMAIL_PORT=587
+EMAIL_HOST_USER=usuario-smtp
+EMAIL_HOST_PASSWORD=senha-smtp
+EMAIL_USE_TLS=True
+EMAIL_USE_SSL=False
+EMAIL_TIMEOUT=10
+DEFAULT_FROM_EMAIL=bi@exemplo.com
