@@ -38,8 +38,8 @@
         class="btn btn-outline-primary js-create-related"
         data-modal-url="{% url 'modal_pessoa_criar' %}"
         data-target="{{ field.id_for_label }}">Novo</button></div>{{ field.errors }}</div>{% endif %}{% endfor %}</div></div></section>
-        <section class="card mb-3"><div class="card-header">Valores e datas</div><div class="card-body"><div class="row g-3">{% for field in form %}{% if field.name in 'valor_inicial,valor_total,custos_indiretos,dt_assinatura,dt_inicio,dt_termino' %}<div class="col-md-4">{{ field.label_tag }}{{ field }}{% if field.name == 'valor_total' %}<div class="form-text">Calculado a partir do valor inicial e dos termos aditivos.</div>{% endif %}{{ field.errors }}</div>{% endif %}{% endfor %}</div></div></section>
-        <section class="card mb-3"><div class="card-header">Termos aditivos</div><div class="card-body"><p class="text-body-secondary">Cadastre somente termos vinculados a este processo.</p>{{ termo_formset.management_form }}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Termo</th><th>Assinatura</th><th>Término</th><th>Valor</th><th>Excluir</th></tr></thead><tbody>{% for termo_form in termo_formset %}<tr>{{ termo_form.id }}<td>{{ termo_form.termo }}{{ termo_form.termo.errors }}</td><td>{{ termo_form.dt_assinatura }}{{ termo_form.dt_assinatura.errors }}</td><td>{{ termo_form.dt_termino }}{{ termo_form.dt_termino.errors }}</td><td>{{ termo_form.valor }}{{ termo_form.valor.errors }}</td><td>{% if termo_form.instance.pk %}{{ termo_form.DELETE }}{% endif %}</td></tr>{% endfor %}</tbody></table></div></div></section>
+        <section class="card mb-3"><div class="card-header">Valores e datas</div><div class="card-body"><div class="row g-3">{% for field in form %}{% if field.name in 'valor_inicial,valor_total,custos_indiretos,dt_assinatura,dt_inicio,dt_termino' %}<div class="col-md-4">{{ field.label_tag }}{{ field }}{% if field.name == 'valor_total' %}<div class="form-text">Calculado a partir do valor inicial e dos termos aditivos.</div>{% elif field.name == 'dt_termino' %}<div class="form-text">Preenchida pelo cálculo da vigência.</div>{% endif %}{{ field.errors }}</div>{% endif %}{% endfor %}</div><div class="row g-3 mt-1"><div class="col-md-4"><label for="id_vigencia_anos" class="form-label">Vigência (anos)</label><input id="id_vigencia_anos" class="form-control" type="number" min="0" step="1" inputmode="numeric"></div><div class="col-md-4"><label for="id_vigencia_meses" class="form-label">Vigência (meses)</label><input id="id_vigencia_meses" class="form-control" type="number" min="0" step="1" inputmode="numeric"></div><div class="col-md-4"><label for="id_vigencia_dias" class="form-label">Vigência (dias)</label><input id="id_vigencia_dias" class="form-control" type="number" min="0" step="1" inputmode="numeric"></div></div></div></section>
+        <section class="card mb-3"><div class="card-header">Termos aditivos</div><div class="card-body"><p class="text-body-secondary">Cadastre somente termos vinculados a este processo.</p>{{ termo_formset.management_form }}<div class="table-responsive"><table class="table align-middle"><thead><tr><th>Termo</th><th>Assinatura</th><th>Término</th><th>Anos</th><th>Meses</th><th>Dias</th><th>Valor</th><th>Excluir</th></tr></thead><tbody>{% for termo_form in termo_formset %}<tr class="js-termo-vigencia">{{ termo_form.id }}<td>{{ termo_form.termo }}{{ termo_form.termo.errors }}</td><td>{{ termo_form.dt_assinatura }}{{ termo_form.dt_assinatura.errors }}</td><td>{{ termo_form.dt_termino }}{{ termo_form.dt_termino.errors }}</td><td><input class="form-control js-vigencia-anos" type="number" min="0" step="1" inputmode="numeric"></td><td><input class="form-control js-vigencia-meses" type="number" min="0" step="1" inputmode="numeric"></td><td><input class="form-control js-vigencia-dias" type="number" min="0" step="1" inputmode="numeric"></td><td>{{ termo_form.valor }}{{ termo_form.valor.errors }}</td><td>{% if termo_form.instance.pk %}{{ termo_form.DELETE }}{% endif %}</td></tr>{% endfor %}</tbody></table></div></div></section>
         <div class="d-flex justify-content-end gap-2"><a href="{% url 'processo_listar' %}" class="btn btn-light">Cancelar</a><button class="btn btn-primary">Salvar processo</button></div></form></div>
     <script>
         (() => {
@@ -56,6 +56,72 @@
 
             document.querySelector('form').addEventListener('input', atualizarTotal);
             atualizarTotal();
+        })();
+
+        (() => {
+            const numero = (campo) => Math.max(0, Number.parseInt(campo.value, 10) || 0);
+
+            const calcularDataTermino = (inicio, termino, anos, meses, dias) => {
+                if (!inicio.value || ![anos.value, meses.value, dias.value].some(Boolean)) {
+                    return;
+                }
+
+                const [ano, mes, dia] = inicio.value.split('-').map(Number);
+                const data = new Date(ano, mes - 1, dia);
+                const diaOriginal = data.getDate();
+                data.setDate(1);
+                data.setFullYear(data.getFullYear() + numero(anos));
+                data.setMonth(data.getMonth() + numero(meses));
+                const ultimoDia = new Date(
+                    data.getFullYear(),
+                    data.getMonth() + 1,
+                    0,
+                ).getDate();
+                data.setDate(Math.min(diaOriginal, ultimoDia));
+                data.setDate(data.getDate() + numero(dias));
+                termino.value = [
+                    data.getFullYear(),
+                    String(data.getMonth() + 1).padStart(2, '0'),
+                    String(data.getDate()).padStart(2, '0'),
+                ].join('-');
+            };
+
+            const inicio = document.getElementById('id_dt_inicio');
+            const termino = document.getElementById('id_dt_termino');
+            const anos = document.getElementById('id_vigencia_anos');
+            const meses = document.getElementById('id_vigencia_meses');
+            const dias = document.getElementById('id_vigencia_dias');
+            if (!inicio || !termino || !anos || !meses || !dias) return;
+
+            const calcularTermino = () => {
+                calcularDataTermino(inicio, termino, anos, meses, dias);
+            };
+
+            [inicio, anos, meses, dias].forEach((campo) => {
+                campo.addEventListener('input', calcularTermino);
+            });
+
+            document.querySelectorAll('.js-termo-vigencia').forEach((linha) => {
+                const termoInicio = linha.querySelector('[name$="-dt_assinatura"]');
+                const termoFim = linha.querySelector('[name$="-dt_termino"]');
+                const termoAnos = linha.querySelector('.js-vigencia-anos');
+                const termoMeses = linha.querySelector('.js-vigencia-meses');
+                const termoDias = linha.querySelector('.js-vigencia-dias');
+                if (!termoInicio || !termoFim || !termoAnos || !termoMeses || !termoDias) {
+                    return;
+                }
+
+                const atualizarTermo = () => calcularDataTermino(
+                    termoInicio,
+                    termoFim,
+                    termoAnos,
+                    termoMeses,
+                    termoDias,
+                );
+                [termoInicio, termoAnos, termoMeses, termoDias].forEach((campo) => {
+                    campo.addEventListener('input', atualizarTermo);
+                });
+            });
         })();
     </script>
 {% endblock %}

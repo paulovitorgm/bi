@@ -84,7 +84,11 @@ class ProcessoProjetoForm(forms.ModelForm):
             ),
             'dt_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'dt_termino': forms.DateInput(
-                attrs={'class': 'form-control', 'type': 'date'}
+                attrs={
+                    'class': 'form-control bg-body-secondary',
+                    'type': 'date',
+                    'readonly': True,
+                }
             ),
             'dt_assinatura': forms.DateInput(
                 attrs={'class': 'form-control', 'type': 'date'}
@@ -154,7 +158,11 @@ class TermoAditivoInlineForm(forms.ModelForm):
                 attrs={'class': 'form-control', 'type': 'date'}
             ),
             'dt_termino': forms.DateInput(
-                attrs={'class': 'form-control', 'type': 'date'}
+                attrs={
+                    'class': 'form-control bg-body-secondary',
+                    'type': 'date',
+                    'readonly': True,
+                }
             ),
             'valor': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
         }
